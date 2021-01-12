@@ -1,0 +1,17 @@
+Sensors: 14 (3*position, 3*rotation, 3*velocity, 3*angular velocity, 1*fuel)
+Actuators: 3 (joystick, throttle)
+DOF: Full DOF
+Drag: 0.1
+Angular Drag: 1
+
+Reward Shaping:
+speedCriterion: 4f
+orientationCriterion: 8f
+deniedCriteria: -10f
+emptyFuel: -5f
+heldOrientation: 0.15f
+activatedThrottle: -0.1f
+
+Experimental Results / Observations:
+Agent demonstrates smooth transition to vertical orientation => this is likely due to positive rewarding of this (potentially excessive)
+Agent appears to apply thrust at start, stop, then apply again at end => this implies it has started to learn to slow down before impact
