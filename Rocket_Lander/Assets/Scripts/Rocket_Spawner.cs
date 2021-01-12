@@ -9,9 +9,7 @@ public class Rocket_Spawner : MonoBehaviour
     [SerializeField] private float zrange = 50f;
     [SerializeField] private float ylow = 10f;
     [SerializeField] private float yhigh = 40f;
-
     [SerializeField] private float tiltAngle = 45f;
-    // Assign initial velocity?
 
     public GameObject go;
 
