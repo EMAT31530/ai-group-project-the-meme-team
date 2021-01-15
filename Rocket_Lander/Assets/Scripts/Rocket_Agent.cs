@@ -225,6 +225,9 @@ public class Rocket_Agent : Agent
             throttle = (float)Convert.ToInt16(keyboard.spaceKey.IsPressed());
         }
 
+        // Remap the user input so compatible with latter rescaling
+        throttle = throttle * 2f - 1f;
+
         return new Vector3(tvc_input.x, tvc_input.y, throttle);
     }
 
