@@ -37,6 +37,7 @@ public class Rocket_Agent : Agent
     private bool collisionFlag = false;
     [SerializeField] private float velocityThresh = 5f;
     [SerializeField] private bool randomiseDestination = true;
+    [SerializeField] private bool thrusterTorque = true;
 
     // Start is called before the first frame update
     void Start()
@@ -86,9 +87,13 @@ public class Rocket_Agent : Agent
     // Replaces the Physics Code, allowing for expedited training
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
+        //Debug.Log("CONTINUOUS");
+        //Debug.Log(actionBuffers.ContinuousActions[2]);
 
         // Map the Throttle to the expected domain (from [-1,1] to [0,1])
         float mappedThrottle = (actionBuffers.ContinuousActions[2] + 1f) / 2f;
+        //Debug.Log("MAPPED");
+        //Debug.Log(mappedThrottle);
 
         // Collects vector of actions and stores in actionVector
         Vector3 actionVector = new Vector3(actionBuffers.ContinuousActions[0], actionBuffers.ContinuousActions[1], mappedThrottle);
@@ -201,9 +206,9 @@ public class Rocket_Agent : Agent
         float throttle = inputVector3.z;
 
         // Rotate the thruster to emulate thrust vectoring (FIXED)
-        rb_thruster.transform.rotation = Quaternion.Euler(Mathf.Atan(tvc_input.y) * Mathf.Rad2Deg, 0, Mathf.Atan(tvc_input.x) * Mathf.Rad2Deg) *
-                                         rb.rotation;
-
+        rb_thruster.transform.rotation = transform.rotation *
+                                         Quaternion.Euler(Mathf.Atan(tvc_input.y) * Mathf.Rad2Deg, 0,
+                                             Mathf.Atan(tvc_input.x) * Mathf.Rad2Deg);
 
         // Calculate thrust force to be applied
         Vector3 force = rb_thruster.transform.up * throttle * thrustForce;
@@ -216,8 +221,21 @@ public class Rocket_Agent : Agent
             //rb.AddForceAtPosition(force, rb.transform.localPosition - Vector3.ClampMagnitude(rb.transform.up, 0.1f));
             //rb.AddForceAtPosition(force, -2 * rb_thruster.transform.localPosition);
 
-            // Force w/o turning moment (effectively 3 DOF, translational)
-            rb.AddForce(force);
+            if (!thrusterTorque)
+            {
+                // Force w/o turning moment (effectively 3 DOF, translational)
+                rb.AddForce(force);
+            }
+            else
+            {
+                // Force w/ turning moment (full 6 DOF, translational + rotational)
+                rb.AddForce(force);
+
+                // Add torque for moment (OR OFFSET FORCE?)
+                //rb.AddRelativeTorque();
+                //rb.AddTorque();
+                //Debug.Log(force);
+            }
 
             if (particlesEnabled)
                 em.enabled = true;
