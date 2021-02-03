@@ -205,7 +205,7 @@ public class Rocket_Agent : Agent
         Vector2 tvc_input = new Vector2(inputVector3.x, inputVector3.y);
         float throttle = inputVector3.z;
 
-        // Rotate the thruster to emulate thrust vectoring (FIXED)
+        // Rotate the thruster to emulate thrust vectoring
         rb_thruster.transform.rotation = transform.rotation *
                                          Quaternion.Euler(Mathf.Atan(tvc_input.y) * Mathf.Rad2Deg, 0,
                                              Mathf.Atan(tvc_input.x) * Mathf.Rad2Deg);
@@ -217,10 +217,6 @@ public class Rocket_Agent : Agent
         if (throttle > 0)
         {
 
-            // Apply force at offset location (hence introducing instability from remote force / moment)
-            //rb.AddForceAtPosition(force, rb.transform.localPosition - Vector3.ClampMagnitude(rb.transform.up, 0.1f));
-            //rb.AddForceAtPosition(force, -2 * rb_thruster.transform.localPosition);
-
             if (!thrusterTorque)
             {
                 // Force w/o turning moment (effectively 3 DOF, translational)
@@ -229,12 +225,7 @@ public class Rocket_Agent : Agent
             else
             {
                 // Force w/ turning moment (full 6 DOF, translational + rotational)
-                rb.AddForce(force);
-
-                // Add torque for moment (OR OFFSET FORCE?)
-                //rb.AddRelativeTorque();
-                //rb.AddTorque();
-                //Debug.Log(force);
+                rb.AddForceAtPosition(force, transform.TransformPoint(rb.transform.parent.localPosition));
             }
 
             if (particlesEnabled)
