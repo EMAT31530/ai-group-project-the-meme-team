@@ -10192,7 +10192,7 @@ Transform:
   m_GameObject: {fileID: 1728156783}
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0.05, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: -1, z: 1}
   m_Children:
   - {fileID: 800144448}
   m_Father: {fileID: 8097594892325682087}
@@ -10235,7 +10235,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728156783}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -10313,8 +10313,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4feb05586a59e5e43b6f981e5ae600fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  rb_thruster: {fileID: 0}
   thruster: {fileID: 1728156783}
   fireParticleSystem: {fileID: 800144446}
+  position_offset: {x: 0, y: 0, z: 0}
+  fuel: 0
   thrustForce: 25000
   initial_fuel: 100000
   fuelEnabled: 0
@@ -10339,7 +10343,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 14
   m_CollisionDetection: 0
 --- !u!64 &1069113260986919071
 MeshCollider:
@@ -10425,7 +10429,7 @@ MonoBehaviour:
   zrange: 20
   ylow: 15
   yhigh: 20
-  tiltAngle: 45
+  tiltAngle: 0
   velocityThresh: 3
   randomiseDestination: 1
 --- !u!33 &6392649640964309741
@@ -10484,12 +10488,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1069113260986919068}
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: -1}
   m_Children:
   - {fileID: 1724633286}
   - {fileID: 1728156784}
   m_Father: {fileID: 334184100}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
