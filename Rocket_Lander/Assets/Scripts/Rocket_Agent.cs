@@ -21,12 +21,9 @@ public class Rocket_Agent : Agent
     public ParticleSystem fireParticleSystem;
     private ParticleSystem.EmissionModule em;
     private Vector3 position_offset;
-    private float fuel;
 
     // TVC Parameters
     [SerializeField] private float thrustForce = 25000f;
-    [SerializeField] private float initial_fuel = 100000f;
-    [SerializeField] private bool fuelEnabled = true;
     [SerializeField] private bool particlesEnabled = true;
     [SerializeField] private bool usingController = true;
 
@@ -48,7 +45,6 @@ public class Rocket_Agent : Agent
         rb = gameObject.GetComponent<Rigidbody>();
         rb_thruster = thruster.GetComponent<Rigidbody>();
         position_offset = rb_thruster.position - rb.position;
-        fuel = initial_fuel;
         em = fireParticleSystem.emission;
         em.enabled = false;
 
@@ -67,13 +63,10 @@ public class Rocket_Agent : Agent
 
         // Reset position and velocity of agent
         this.transform.localPosition = new Vector3(Random.Range(-xrange / 2, xrange / 2), Random.Range(ylow, yhigh), Random.Range(-zrange / 2, zrange / 2));
-        this.transform.localRotation = Quaternion.Euler(Random.Range(-tiltAngle, tiltAngle), Random.Range(-tiltAngle, tiltAngle), Random.Range(-tiltAngle, tiltAngle));
+        this.transform.localRotation = Quaternion.Euler(Random.Range(-tiltAngle, tiltAngle), Random.Range(0, 0), Random.Range(-tiltAngle, tiltAngle));
         this.rb.angularVelocity = Vector3.zero;
         this.rb.velocity = Vector3.zero;
         rb_thruster.position = position_offset + rb.position;
-
-        // Replenish fuel reserves
-        fuel = initial_fuel;
 
         // Reset collision flag
         collisionFlag = false;
@@ -133,13 +126,6 @@ public class Rocket_Agent : Agent
             EndEpisode();
         }
 
-        // Penalise running out of fuel entirely, and early episode end
-        else if (fuelEnabled && fuel <= 0)
-        {
-            //AddReward(-8.0f);
-            AddReward(-1.0f);
-            EndEpisode();
-        }
 
         else if (rb.transform.localPosition.y >= 25f)
         {
@@ -183,9 +169,6 @@ public class Rocket_Agent : Agent
         sensor.AddObservation(rb.velocity);
         sensor.AddObservation(rb.angularVelocity);
 
-        // Fuel levels
-        sensor.AddObservation(fuel);
-
         // Destination Location
         sensor.AddObservation(destination.transform.localPosition);
 
@@ -225,6 +208,9 @@ public class Rocket_Agent : Agent
             throttle = (float)Convert.ToInt16(keyboard.spaceKey.IsPressed());
         }
 
+        // Map the Throttle to consistent domain as ML Agent (from [0,1] to [-1,1])
+        throttle = throttle * 2 - 1;
+
         return new Vector3(tvc_input.x, tvc_input.y, throttle);
     }
 
@@ -245,25 +231,16 @@ public class Rocket_Agent : Agent
         Vector3 force = rb_thruster.transform.up * throttle * thrustForce;
 
         // Conduct appropriate thrust logic (e.g. with or without particles and fuel)
-        if (fuelEnabled)
-        {
-            if (fuel > 0 && throttle > 0)
-            {
-                if (particlesEnabled)
-                    em.enabled = true;
 
-                // Apply force at offset location (hence introducing instability from remote force / moment)
-                rb.AddForceAtPosition(force, rb.transform.localPosition - Vector3.ClampMagnitude(rb.transform.up, 0.1f));
-                fuel -= Vector3.Magnitude(force) / 10;
-            }
-            else if (particlesEnabled)
-                em.enabled = false;
-        }
-        else if (throttle > 0)
+        if (throttle > 0)
         {
+
+            // Apply force at offset location (hence introducing instability from remote force / moment)
             rb.AddForceAtPosition(force, rb.transform.localPosition - Vector3.ClampMagnitude(rb.transform.up, 0.1f));
+
             if (particlesEnabled)
                 em.enabled = true;
+
         }
         else if (particlesEnabled)
             em.enabled = false;
