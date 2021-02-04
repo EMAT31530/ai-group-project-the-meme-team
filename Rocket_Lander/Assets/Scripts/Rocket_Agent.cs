@@ -38,6 +38,7 @@ public class Rocket_Agent : Agent
     [SerializeField] private float velocityThresh = 5f;
     [SerializeField] private bool randomiseDestination = true;
     [SerializeField] private bool thrusterTorque = true;
+    [SerializeField] private float initialVelocity = 5f;
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +57,7 @@ public class Rocket_Agent : Agent
         else
             destination.transform.localPosition = new Vector3(0f, 1f, 0f);
 
+        this.rb.velocity = new Vector3(0f, -initialVelocity, 0f);
         rb_thruster.position = position_offset + rb.position;
     }
 
@@ -69,7 +71,7 @@ public class Rocket_Agent : Agent
         this.rb.angularVelocity = Vector3.zero;
 
         // Non-zero initial velocity so as if already falling for a while
-        this.rb.velocity = new Vector3(0f,-10f,0f);
+        this.rb.velocity = new Vector3(0f,-initialVelocity, 0f);
         rb_thruster.position = position_offset + rb.position;
 
         // Reset collision flag
@@ -84,17 +86,24 @@ public class Rocket_Agent : Agent
         rb_thruster.position = position_offset + rb.position;
     }
 
+    float remapValues(float src, float src_low, float src_high, float dst_low, float dst_high)
+    {
+        return dst_low + (src - src_low) * (dst_high - dst_low) / (src_high - src_low);
+    }
 
     // Code executed each simulation step after receiving actions (heuristic / NN)
-    // Replaces the Physics Code, allowing for expedited training
+    // Actions and rewards go here
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
 
         // Clamp the Throttle between [-1,1] for stability of continuous sampling
         float clampedThrottle = Mathf.Clamp(actionBuffers.ContinuousActions[2], -1f, 1f);
 
-        // Map the Throttle to the expected domain (from [-1,1] to [0,1])
-        float mappedThrottle = (clampedThrottle + 1f) / 2f;
+        // Map the Throttle to the enlarged expected domain (from [-1,1] to [0,1.1]) - this is to allow for full throttle
+        float mappedThrottle = remapValues(clampedThrottle, -1f, 1f, 0f, 1.1f);
+
+        // Clamp the Throttle between allowed values [0,1]
+        mappedThrottle = Mathf.Clamp(mappedThrottle, 0f, 1f);
 
         // Collects vector of actions and stores in actionVector
         Vector3 actionVector = new Vector3(actionBuffers.ContinuousActions[0], actionBuffers.ContinuousActions[1], mappedThrottle);
@@ -105,44 +114,31 @@ public class Rocket_Agent : Agent
         // Distance to the destination
         float destinationDistance = Vector3.Distance(this.transform.localPosition, destination.transform.localPosition);
 
-        // If collided (with ground)
+        // If collided (with ground) - End of episode rewards go here
         if (collisionFlag)
         {
-            /* For now, simplifying reward function to single term
-            // Check and reward low speed and vertical landing conditions
-            // Create binary flags using ternary operators
-            int speedCriterion = rb.velocity.magnitude < velocityThresh ? 1:0;
-            int orientationCriterion = Mathf.Abs(Vector3.Dot(this.transform.up, Vector3.up)) > 0.8 ? 1 : 0;
-            int distanceCriterion = destinationDistance < 2 ? 1 : 0;
 
-            // Reward based on adherance to speed, distance, and orientation criterion
-            if (distanceCriterion == 1)
-            {
-                AddReward((speedCriterion * 4.0f + orientationCriterion * 2.0f) + 6.0f);
-            }
+            // Goal arrival reward
+            if (destinationDistance < 3)
+                AddReward(5.0f);
             else
-            {
-                AddReward(-2f);
-            }*/
-
-            // Could add a reward here before ending episode to quantify
-            // speed and orientation, as above
+                AddReward(-5.0f);
 
             // End episode, and begin next
             EndEpisode();
         }
 
         // Penalise and end episode if leave bounds of training area
-        else if (rb.transform.localPosition.y >= 25f || rb.transform.localPosition.x >= 65f ||
+        else if (rb.transform.localPosition.y >= 30f || rb.transform.localPosition.x >= 65f ||
                  rb.transform.localPosition.x <= -65f || rb.transform.localPosition.z >= 65f ||
                  rb.transform.localPosition.z <= -65f)
         {
-            AddReward(-5.0f);
+            AddReward(-10.0f);
             EndEpisode();
         }
-        
+
         // Linear Distance Penalty
-        AddReward(-1 * (destinationDistance / 10f));
+        AddReward(-1 * (destinationDistance / 1000f));
 
     }
 
