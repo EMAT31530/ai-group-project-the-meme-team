@@ -1889,6 +1889,10 @@ PrefabInstance:
       propertyPath: ColorModule.gradient.maxGradient.m_NumColorKeys
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 6392188698847901316, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6392188699356214328, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_Name
       value: Simulation Environment

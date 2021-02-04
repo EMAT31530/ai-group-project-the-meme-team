@@ -118,8 +118,16 @@ public class Rocket_Agent : Agent
         if (collisionFlag)
         {
 
+            // Fetch target size from environment parameters (for Curriculum Learning)
+            float targetSize = Academy.Instance.EnvironmentParameters.GetWithDefault("target_size", 3.0f);
+
+            // Update particle system radius to reflect change in targetSize
+            ParticleSystem.ShapeModule targetDrawShape = destination.GetComponent<ParticleSystem>().shape;
+            targetDrawShape.radius = targetSize;
+
             // Goal arrival reward
-            if (destinationDistance < 3)
+            // Changed to using an Environment Parameter for Curriculum Learning
+            if (destinationDistance < targetSize)
                 AddReward(5.0f);
             else
                 AddReward(-5.0f);
