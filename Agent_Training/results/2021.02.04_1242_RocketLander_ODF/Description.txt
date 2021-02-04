@@ -1,0 +1,24 @@
+Description of training:
+Testing simplified environment to confirm pull request
+
+Sensors: 16 (V3 position, V3 rotation, V3 velocity, V3 angular velocity, V3 location of landing pad)
+Actuators: 3 (V2 joystick, float throttle)
+DOF: Full DOF
+REMOVED SENSORS ###
+	Drag
+	Angular Drag
+
+Reward Shaping:
+outOfBounds: -5f
+linearDistanceToTarget: -0.1f * linear distance to target
+REMOVED REWARDS ###
+	speedCriterion:
+	orientationCriterion:
+	deniedCriteria:
+	emptyFuel:
+	heldOrientation:
+	activatedThrottle:
+
+Experimental Results / Observations:
+No discernable successful result
+Training scheme conducted at reasonable timescale on low-end hardware (500,000 steps in 1hr real time)

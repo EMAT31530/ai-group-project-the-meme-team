@@ -21,12 +21,9 @@ public class Rocket_Agent : Agent
     public ParticleSystem fireParticleSystem;
     private ParticleSystem.EmissionModule em;
     private Vector3 position_offset;
-    private float fuel;
 
     // TVC Parameters
     [SerializeField] private float thrustForce = 25000f;
-    [SerializeField] private float initial_fuel = 100000f;
-    [SerializeField] private bool fuelEnabled = true;
     [SerializeField] private bool particlesEnabled = true;
     [SerializeField] private bool usingController = true;
 
@@ -39,8 +36,8 @@ public class Rocket_Agent : Agent
 
     private bool collisionFlag = false;
     [SerializeField] private float velocityThresh = 5f;
-
     [SerializeField] private bool randomiseDestination = true;
+    [SerializeField] private bool thrusterTorque = true;
 
     // Start is called before the first frame update
     void Start()
@@ -48,17 +45,18 @@ public class Rocket_Agent : Agent
         rb = gameObject.GetComponent<Rigidbody>();
         rb_thruster = thruster.GetComponent<Rigidbody>();
         position_offset = rb_thruster.position - rb.position;
-        fuel = initial_fuel;
         em = fireParticleSystem.emission;
         em.enabled = false;
 
         this.transform.localPosition = new Vector3(Random.Range(-xrange / 2, xrange / 2), Random.Range(ylow, yhigh), Random.Range(-zrange / 2, zrange / 2));
-        this.transform.localRotation = Quaternion.Euler(Random.Range(-tiltAngle, tiltAngle), Random.Range(-tiltAngle, tiltAngle), Random.Range(-tiltAngle, tiltAngle));
+        this.transform.localRotation = Quaternion.Euler(Random.Range(-tiltAngle, tiltAngle), 0, Random.Range(-tiltAngle, tiltAngle));
 
         if (randomiseDestination)
             destination.transform.localPosition = new Vector3(Random.Range(-xrange / 2, xrange / 2), 1f, Random.Range(-zrange / 2, zrange / 2));
         else
             destination.transform.localPosition = new Vector3(0f, 1f, 0f);
+
+        rb_thruster.position = position_offset + rb.position;
     }
 
     // Code executed at the beginning of each training episode
@@ -67,13 +65,12 @@ public class Rocket_Agent : Agent
 
         // Reset position and velocity of agent
         this.transform.localPosition = new Vector3(Random.Range(-xrange / 2, xrange / 2), Random.Range(ylow, yhigh), Random.Range(-zrange / 2, zrange / 2));
-        this.transform.localRotation = Quaternion.Euler(Random.Range(-tiltAngle, tiltAngle), Random.Range(-tiltAngle, tiltAngle), Random.Range(-tiltAngle, tiltAngle));
+        this.transform.localRotation = Quaternion.Euler(Random.Range(-tiltAngle, tiltAngle), 0, Random.Range(-tiltAngle, tiltAngle));
         this.rb.angularVelocity = Vector3.zero;
-        this.rb.velocity = Vector3.zero;
-        rb_thruster.position = position_offset + rb.position;
 
-        // Replenish fuel reserves
-        fuel = initial_fuel;
+        // Non-zero initial velocity so as if already falling for a while
+        this.rb.velocity = new Vector3(0f,-10f,0f);
+        rb_thruster.position = position_offset + rb.position;
 
         // Reset collision flag
         collisionFlag = false;
@@ -84,6 +81,7 @@ public class Rocket_Agent : Agent
         else
             destination.transform.localPosition = new Vector3(0f, 1f, 0f);
 
+        rb_thruster.position = position_offset + rb.position;
     }
 
 
@@ -92,15 +90,14 @@ public class Rocket_Agent : Agent
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
 
+        // Clamp the Throttle between [-1,1] for stability of continuous sampling
+        float clampedThrottle = Mathf.Clamp(actionBuffers.ContinuousActions[2], -1f, 1f);
+
         // Map the Throttle to the expected domain (from [-1,1] to [0,1])
-        float mappedThrottle = (actionBuffers.ContinuousActions[2] + 1f) / 2f;
+        float mappedThrottle = (clampedThrottle + 1f) / 2f;
 
         // Collects vector of actions and stores in actionVector
-        Vector3 actionVector = new Vector3(actionBuffers.ContinuousActions[0], actionBuffers.ContinuousActions[1],
-            mappedThrottle);
-
-        // Debug Statement Used to Check Mapping of Action Space
-        // Debug.Log(actionVector);
+        Vector3 actionVector = new Vector3(actionBuffers.ContinuousActions[0], actionBuffers.ContinuousActions[1], mappedThrottle);
 
         // Calculate and apply thrust using actionVector
         applyThrust(actionVector);
@@ -108,11 +105,10 @@ public class Rocket_Agent : Agent
         // Distance to the destination
         float destinationDistance = Vector3.Distance(this.transform.localPosition, destination.transform.localPosition);
 
-        // Rewards
         // If collided (with ground)
-        // Mesh collision not perfect => OR low height
-        if (collisionFlag || rb.transform.localPosition.y <= 1.2f)
+        if (collisionFlag)
         {
+            /* For now, simplifying reward function to single term
             // Check and reward low speed and vertical landing conditions
             // Create binary flags using ternary operators
             int speedCriterion = rb.velocity.magnitude < velocityThresh ? 1:0;
@@ -127,49 +123,26 @@ public class Rocket_Agent : Agent
             else
             {
                 AddReward(-2f);
-            }
+            }*/
+
+            // Could add a reward here before ending episode to quantify
+            // speed and orientation, as above
 
             // End episode, and begin next
             EndEpisode();
         }
 
-        // Penalise running out of fuel entirely, and early episode end
-        else if (fuelEnabled && fuel <= 0)
-        {
-            //AddReward(-8.0f);
-            AddReward(-1.0f);
-            EndEpisode();
-        }
-
-        else if (rb.transform.localPosition.y >= 25f)
+        // Penalise and end episode if leave bounds of training area
+        else if (rb.transform.localPosition.y >= 25f || rb.transform.localPosition.x >= 65f ||
+                 rb.transform.localPosition.x <= -65f || rb.transform.localPosition.z >= 65f ||
+                 rb.transform.localPosition.z <= -65f)
         {
             AddReward(-5.0f);
             EndEpisode();
         }
-
-        // Award vertical falling (due to stability) - potentially remove?
-        /*if (Vector3.Dot(this.transform.up, Vector3.up) > 0.9)
-        {
-            AddReward(0.01f);
-        }*/
-
-        // Penalise use of fuel
-        /*if (actionBuffers.ContinuousActions[2] > 0)
-        {
-            AddReward(-0.01f);
-        }*/
-
-        // Add Penalty To Bias Towards Target
-        // 2D Position Bias
-        //float distance2D = Vector2.Distance(new Vector2(this.transform.localPosition.x, this.transform.localPosition.z), new Vector2(destination.transform.localPosition.x, destination.transform.localPosition.z));
-        //float destinationPenalty = (Mathf.Abs((float)Math.Tanh(distance2D / 5.0f)));
         
-        // Mapped Penalty with Tanh function
-        //float destinationPenalty = (Mathf.Abs((float)Math.Tanh(destinationDistance / 5.0f)));
-
         // Linear Distance Penalty
-        float destinationPenalty = (destinationDistance / 10f);
-        AddReward(2f*destinationPenalty);
+        AddReward(-1 * (destinationDistance / 10f));
 
     }
 
@@ -182,9 +155,6 @@ public class Rocket_Agent : Agent
         sensor.AddObservation(rb.transform.localRotation);
         sensor.AddObservation(rb.velocity);
         sensor.AddObservation(rb.angularVelocity);
-
-        // Fuel levels
-        sensor.AddObservation(fuel);
 
         // Destination Location
         sensor.AddObservation(destination.transform.localPosition);
@@ -225,6 +195,9 @@ public class Rocket_Agent : Agent
             throttle = (float)Convert.ToInt16(keyboard.spaceKey.IsPressed());
         }
 
+        // Map the Throttle to consistent domain as ML Agent (from [0,1] to [-1,1])
+        throttle = throttle * 2 - 1;
+
         return new Vector3(tvc_input.x, tvc_input.y, throttle);
     }
 
@@ -237,33 +210,31 @@ public class Rocket_Agent : Agent
         float throttle = inputVector3.z;
 
         // Rotate the thruster to emulate thrust vectoring
-        rb_thruster.transform.localRotation =
-            Quaternion.Euler(Mathf.Atan(tvc_input.x) * Mathf.Rad2Deg, 0, Mathf.Atan(tvc_input.y) * Mathf.Rad2Deg) *
-            rb.rotation;
+        rb_thruster.transform.rotation = transform.rotation *
+                                         Quaternion.Euler(Mathf.Atan(tvc_input.y) * Mathf.Rad2Deg, 0,
+                                             Mathf.Atan(tvc_input.x) * Mathf.Rad2Deg);
 
         // Calculate thrust force to be applied
         Vector3 force = rb_thruster.transform.up * throttle * thrustForce;
 
         // Conduct appropriate thrust logic (e.g. with or without particles and fuel)
-        if (fuelEnabled)
+        if (throttle > 0)
         {
-            if (fuel > 0 && throttle > 0)
-            {
-                if (particlesEnabled)
-                    em.enabled = true;
 
-                // Apply force at offset location (hence introducing instability from remote force / moment)
-                rb.AddForceAtPosition(force, rb.transform.localPosition - Vector3.ClampMagnitude(rb.transform.up, 0.1f));
-                fuel -= Vector3.Magnitude(force) / 10;
+            if (!thrusterTorque)
+            {
+                // Force w/o turning moment (effectively 3 DOF, translational)
+                rb.AddForce(force);
             }
-            else if (particlesEnabled)
-                em.enabled = false;
-        }
-        else if (throttle > 0)
-        {
-            rb.AddForceAtPosition(force, rb.transform.localPosition - Vector3.ClampMagnitude(rb.transform.up, 0.1f));
+            else
+            {
+                // Force w/ turning moment (full 6 DOF, translational + rotational)
+                rb.AddForceAtPosition(force, transform.TransformPoint(rb.transform.parent.localPosition));
+            }
+
             if (particlesEnabled)
                 em.enabled = true;
+
         }
         else if (particlesEnabled)
             em.enabled = false;
@@ -278,16 +249,8 @@ public class Rocket_Agent : Agent
         if (other.gameObject.name == "Ground")
         //if (gameObject.GetComponent<Rigidbody>().velocity.magnitude > velocityThresh)
         {
-            //Debug.Log("Collision with Ground!!!");
             collisionFlag = true;
         }
-    }
-
-    // Gizmo visualisation on selection (for spawn volume)
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = new Color(0, 0, 1, 0.5f);
-        Gizmos.DrawCube(transform.TransformPoint(new Vector3(0f, (ylow + yhigh) / 2, 0f)), new Vector3(xrange, (yhigh - ylow) / 2, zrange));
     }
 
 }
