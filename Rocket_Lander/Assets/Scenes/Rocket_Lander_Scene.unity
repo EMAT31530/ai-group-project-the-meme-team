@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Simulation Environment (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6392188699356214328, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6392188699356214335, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -316,6 +320,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Simulation Environment (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6392188699356214328, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6392188699356214335, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -372,6 +380,10 @@ PrefabInstance:
     - target: {fileID: 6392188699356214328, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_Name
       value: Simulation Environment (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6392188699356214328, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6392188699356214335, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_RootOrder
@@ -512,7 +524,11 @@ PrefabInstance:
     - target: {fileID: 6225062211954893368, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: 8a3e32d945a4ece4fa5d937ece7fc611, type: 3}
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893368, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: m_BehaviorType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6392188699356214328, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_Name
       value: Simulation Environment
