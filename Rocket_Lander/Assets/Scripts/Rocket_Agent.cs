@@ -38,6 +38,7 @@ public class Rocket_Agent : Agent
     [SerializeField] private float velocityThresh = 5f;
     [SerializeField] private bool randomiseDestination = true;
     [SerializeField] private bool thrusterTorque = true;
+    [SerializeField] private float initialVelocity = 5f;
 
     // Start is called before the first frame update
     void Start()
@@ -56,6 +57,7 @@ public class Rocket_Agent : Agent
         else
             destination.transform.localPosition = new Vector3(0f, 1f, 0f);
 
+        this.rb.velocity = new Vector3(0f, -initialVelocity, 0f);
         rb_thruster.position = position_offset + rb.position;
     }
 
@@ -69,7 +71,7 @@ public class Rocket_Agent : Agent
         this.rb.angularVelocity = Vector3.zero;
 
         // Non-zero initial velocity so as if already falling for a while
-        this.rb.velocity = new Vector3(0f,-10f,0f);
+        this.rb.velocity = new Vector3(0f,-initialVelocity, 0f);
         rb_thruster.position = position_offset + rb.position;
 
         // Reset collision flag
@@ -127,6 +129,12 @@ public class Rocket_Agent : Agent
 
             // Could add a reward here before ending episode to quantify
             // speed and orientation, as above
+            if (destinationDistance < 3)
+                //AddReward(5f);
+                AddReward(20f);
+            else
+                //AddReward(-5f);
+                AddReward(-20f);
 
             // End episode, and begin next
             EndEpisode();
@@ -137,12 +145,14 @@ public class Rocket_Agent : Agent
                  rb.transform.localPosition.x <= -65f || rb.transform.localPosition.z >= 65f ||
                  rb.transform.localPosition.z <= -65f)
         {
-            AddReward(-5.0f);
+            AddReward(-30.0f);
+            //AddReward(-5.0f);
             EndEpisode();
         }
-        
+
         // Linear Distance Penalty
-        AddReward(-1 * (destinationDistance / 10f));
+        //AddReward(-1 * (destinationDistance / 10f));
+        AddReward(-1 * (destinationDistance / 100f));
 
     }
 
