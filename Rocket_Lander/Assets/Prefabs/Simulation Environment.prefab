@@ -4940,7 +4940,7 @@ MonoBehaviour:
   MaxStep: 0
   thruster: {fileID: 6392188699694472948}
   destination: {fileID: 6392188698847901319}
-  fireParticleSystem: {fileID: 0}
+  fireParticleSystem: {fileID: 8548182447654065466}
   thrustForce: 25000
   particlesEnabled: 1
   usingController: 1
