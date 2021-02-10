@@ -119,7 +119,11 @@ public class Rocket_Agent : Agent
 
 
         //Trajectory alignment
-        float alignment = Vector3.Dot(this.transform.localRotation * Vector3.up, Vector3.Normalize(destination.transform.localPosition - this.transform.localPosition));
+        Vector3 rotToTarget3D = Vector3.Normalize(this.transform.localRotation * Vector3.up);
+        Vector3 posToTarget3D = Vector3.Normalize(destination.transform.localPosition - this.transform.localPosition);
+        Vector2 rotToTarget2D = new Vector2(rotToTarget3D.x, rotToTarget3D.z);
+        Vector2 posToTarget2D = new Vector2(posToTarget3D.x, posToTarget3D.z);
+        float alignment = Vector2.Dot(rotToTarget2D, posToTarget2D);
         AddReward(RW_alignment * alignment);
 
 

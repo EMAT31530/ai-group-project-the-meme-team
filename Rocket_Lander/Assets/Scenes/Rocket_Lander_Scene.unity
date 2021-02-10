@@ -1649,6 +1649,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893317, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: m_Constraints
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893368, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_Model
       value: 
@@ -1656,6 +1660,14 @@ PrefabInstance:
     - target: {fileID: 6225062211954893368, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_BehaviorType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: RW_alignment
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: usingController
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem

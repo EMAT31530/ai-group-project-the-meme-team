@@ -1,0 +1,30 @@
+{
+    "RocketLander": {
+        "checkpoints": [
+            {
+                "steps": 499989,
+                "file_path": "results\\2021.02.10_1233_RocketLander_ODF\\RocketLander\\RocketLander-499989.onnx",
+                "reward": -0.21298230290412903,
+                "creation_time": 1612962500.6581588
+            },
+            {
+                "steps": 500053,
+                "file_path": "results\\2021.02.10_1233_RocketLander_ODF\\RocketLander\\RocketLander-500053.onnx",
+                "reward": -0.21298230290412903,
+                "creation_time": 1612962501.0521007
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 500053,
+            "file_path": "results\\2021.02.10_1233_RocketLander_ODF\\RocketLander.onnx",
+            "reward": -0.21298230290412903,
+            "creation_time": 1612962501.0521007
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.2.0",
+        "mlagents_version": "0.22.0",
+        "torch_version": "1.7.1+cpu",
+        "tensorflow_version": -1
+    }
+}
