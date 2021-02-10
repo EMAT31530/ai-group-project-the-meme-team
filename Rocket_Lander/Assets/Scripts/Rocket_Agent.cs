@@ -24,6 +24,7 @@ public class Rocket_Agent : Agent
 
     //Changeable reward weightings
     public float RW_alignment;
+    public float RW_vertical;
 
     // TVC Parameters
     [SerializeField] private float thrustForce = 25000f;
@@ -124,12 +125,12 @@ public class Rocket_Agent : Agent
         Vector2 rotToTarget2D = new Vector2(rotToTarget3D.x, rotToTarget3D.z);
         Vector2 posToTarget2D = new Vector2(posToTarget3D.x, posToTarget3D.z);
         float alignment = Vector2.Dot(rotToTarget2D, posToTarget2D);
-        if (alignment >= 0){
-            AddReward(RW_alignment);
-        }
-        else{
-            AddReward(-RW_alignment);
-        }
+        AddReward(RW_alignment * alignment);
+
+        //Vertical alignment
+        float vertical = Vector3.Dot(rotToTarget3D, Vector3.up);
+        AddReward(RW_vertical * vertical);
+
 
 
         // If collided (with ground) - End of episode rewards go here
