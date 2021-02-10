@@ -124,7 +124,12 @@ public class Rocket_Agent : Agent
         Vector2 rotToTarget2D = new Vector2(rotToTarget3D.x, rotToTarget3D.z);
         Vector2 posToTarget2D = new Vector2(posToTarget3D.x, posToTarget3D.z);
         float alignment = Vector2.Dot(rotToTarget2D, posToTarget2D);
-        AddReward(RW_alignment * alignment);
+        if (alignment >= 0){
+            AddReward(RW_alignment);
+        }
+        else{
+            AddReward(-RW_alignment);
+        }
 
 
         // If collided (with ground) - End of episode rewards go here
@@ -142,7 +147,7 @@ public class Rocket_Agent : Agent
         }
 
         // Penalise and end episode if leave bounds of training area
-        else if (rb.transform.localPosition.y >= 30f || rb.transform.localPosition.x >= 65f ||
+        else if (rb.transform.localPosition.y >= 65f || rb.transform.localPosition.x >= 65f ||
                  rb.transform.localPosition.x <= -65f || rb.transform.localPosition.z >= 65f ||
                  rb.transform.localPosition.z <= -65f)
         {
