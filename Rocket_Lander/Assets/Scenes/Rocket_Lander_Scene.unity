@@ -285,6 +285,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: ylow
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: yhigh
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: RW_vertical
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: RW_alignment
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem
       value: 
       objectReference: {fileID: 1547192965}
@@ -522,7 +538,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6392188699356214328, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6392188699356214335, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_RootOrder
@@ -803,6 +819,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: ylow
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: yhigh
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: RW_vertical
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: RW_alignment
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem
       value: 
       objectReference: {fileID: 277952899}
@@ -1040,7 +1072,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6392188699356214328, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6392188699356214335, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_RootOrder
@@ -1234,11 +1266,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: ylow
-      value: 15
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: yhigh
-      value: 30
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: RW_vertical
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: RW_alignment
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem
@@ -1671,15 +1711,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: ylow
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
-      propertyPath: yhigh
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: yhigh
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: RW_vertical
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: RW_alignment
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: usingController
