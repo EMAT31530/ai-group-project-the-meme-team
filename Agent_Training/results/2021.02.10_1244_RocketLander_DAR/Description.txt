@@ -1,0 +1,25 @@
+Sensors: 13 (3*position, 4*rotation, 3*velocity, 3*angular velocity)
+Actuators: 3 (joystick, throttle - mapping extended to [0,1.1] followed by clamping)
+DOF: Full DOF
+Drag: 0.1
+Angular Drag: 0.1
+
+Reward Shaping:
+Penalty for leaving environment = -10f
+Penalty for missing target = -5f
+Reward for hitting target = 5f
+
+Config File:
+rocketlander_config_v4_DAR_Curriculum
+No. of steps = 1e6
+Increased drop height and environment bounds; communicated to Ollie for continued development
+
+Experimental Results / Observations:
+Spawn height increase shows no clear improvement - reward set is sparser now.
+The rocket still appears to flip - adding a vertical orientation reward could benefit this.
+Improved understanding of future position should be incorporated using a directional reward
+	=> This is under development by Ollie
+	=> Recommendation is to be made to step the reward, such that it is independent of vertical alignment
+		(As may otherwise bias horizontal configuration)
+
+Value of Curriculum Learning will be in accelerating convergence, while directional reward will assist the actual convergence.

@@ -30,7 +30,7 @@ public class Rocket_Agent : Agent
     // Spawner Parameters
     [SerializeField] private float xrange = 50f;
     [SerializeField] private float zrange = 50f;
-    [SerializeField] private float ylow = 10f;
+    [SerializeField] private float ylow = 30f;
     [SerializeField] private float yhigh = 40f;
     [SerializeField] private float tiltAngle = 45f;
 
@@ -39,6 +39,11 @@ public class Rocket_Agent : Agent
     [SerializeField] private bool randomiseDestination = true;
     [SerializeField] private bool thrusterTorque = true;
     [SerializeField] private float initialVelocity = 5f;
+
+    // Game Bounds
+    [SerializeField] private float xBound = 65f;
+    [SerializeField] private float zBound = 65f;
+    [SerializeField] private float yBound = 65f;
 
     // Start is called before the first frame update
     void Start()
@@ -137,9 +142,9 @@ public class Rocket_Agent : Agent
         }
 
         // Penalise and end episode if leave bounds of training area
-        else if (rb.transform.localPosition.y >= 30f || rb.transform.localPosition.x >= 65f ||
-                 rb.transform.localPosition.x <= -65f || rb.transform.localPosition.z >= 65f ||
-                 rb.transform.localPosition.z <= -65f)
+        else if (rb.transform.localPosition.y >= yBound || rb.transform.localPosition.x >= xBound ||
+                 rb.transform.localPosition.x <= -xBound || rb.transform.localPosition.z >= zBound ||
+                 rb.transform.localPosition.z <= -zBound)
         {
             AddReward(-10.0f);
             EndEpisode();

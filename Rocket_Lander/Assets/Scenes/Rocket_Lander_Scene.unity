@@ -285,6 +285,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: ylow
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: yhigh
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem
       value: 
       objectReference: {fileID: 1547192965}
@@ -803,6 +811,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: ylow
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: yhigh
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem
       value: 
       objectReference: {fileID: 277952899}
@@ -1233,6 +1249,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: ylow
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: yhigh
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem
       value: 
       objectReference: {fileID: 1133054563}
@@ -1652,10 +1676,18 @@ PrefabInstance:
     - target: {fileID: 6225062211954893368, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5022602860645237092, guid: bc3fe7e5fd581f141afefa32e5b634bc, type: 3}
     - target: {fileID: 6225062211954893368, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_BehaviorType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: ylow
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: yhigh
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem
