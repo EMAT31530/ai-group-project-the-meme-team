@@ -355,7 +355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: usingController
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem
@@ -1280,7 +1280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: usingController
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem
@@ -1881,7 +1881,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: usingController
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem
@@ -2339,7 +2339,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: usingController
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem

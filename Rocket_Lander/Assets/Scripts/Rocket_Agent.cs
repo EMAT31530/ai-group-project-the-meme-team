@@ -23,10 +23,6 @@ public class Rocket_Agent : Agent
     private ParticleSystem.EmissionModule em;
     private Vector3 position_offset;
 
-    //Changeable reward weightings
-    public float RW_alignment;
-    public float RW_vertical;
-
     // TVC Parameters
     private float thrustForce = 25000f;
     [SerializeField] private bool particlesEnabled = true;
@@ -127,21 +123,6 @@ public class Rocket_Agent : Agent
 
         // Distance to the destination
         float destinationDistance = Vector3.Distance(this.transform.localPosition, destination.transform.localPosition);
-
-
-        //Trajectory alignment
-        /*
-        Vector3 rotToTarget3D = Vector3.Normalize(this.transform.rotation * Vector3.up);
-        Vector3 posToTarget3D = Vector3.Normalize(destination.transform.localPosition - this.transform.localPosition);
-        Vector2 rotToTarget2D = new Vector2(rotToTarget3D.x, rotToTarget3D.z);
-        Vector2 posToTarget2D = new Vector2(posToTarget3D.x, posToTarget3D.z);
-        float alignment = Vector2.Dot(rotToTarget2D, posToTarget2D);
-        AddReward(RW_alignment * alignment);
-
-        //Vertical alignment
-        float vertical = Vector3.Dot(rotToTarget3D, Vector3.up);
-        AddReward(RW_vertical * vertical);
-        */
 
 
         // If collided (with ground) - End of episode rewards go here
