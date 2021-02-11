@@ -1,0 +1,24 @@
+{
+    "RocketLander": {
+        "checkpoints": [
+            {
+                "steps": 7871,
+                "file_path": "results\\2021.02.10_1557_RocketLander_ODF\\RocketLander\\RocketLander-7871.onnx",
+                "reward": -3.497450929421645,
+                "creation_time": 1612972743.6101892
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 7871,
+            "file_path": "results\\2021.02.10_1557_RocketLander_ODF\\RocketLander.onnx",
+            "reward": -3.497450929421645,
+            "creation_time": 1612972743.6101892
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.2.0",
+        "mlagents_version": "0.22.0",
+        "torch_version": "1.7.1+cpu",
+        "tensorflow_version": -1
+    }
+}

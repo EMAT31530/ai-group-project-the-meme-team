@@ -368,6 +368,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: ylow
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: yhigh
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: RW_vertical
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: RW_alignment
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem
       value: 
       objectReference: {fileID: 1054390845}
@@ -792,6 +808,22 @@ PrefabInstance:
     - target: {fileID: 6225062211954893368, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_BehaviorType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: ylow
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: yhigh
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: RW_vertical
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: RW_alignment
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem
@@ -1220,6 +1252,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: ylow
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: yhigh
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: RW_vertical
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: RW_alignment
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem
       value: 
       objectReference: {fileID: 1896329862}
@@ -1637,6 +1685,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893317, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: m_Constraints
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893368, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_Model
       value: 
@@ -1644,6 +1696,26 @@ PrefabInstance:
     - target: {fileID: 6225062211954893368, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_BehaviorType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: ylow
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: yhigh
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: RW_vertical
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: RW_alignment
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
+      propertyPath: usingController
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem

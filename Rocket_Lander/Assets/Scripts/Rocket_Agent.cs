@@ -17,10 +17,15 @@ public class Rocket_Agent : Agent
     private Rigidbody rb;
     private Rigidbody rb_thruster;
     public GameObject thruster;
+    public TrailRenderer trail;
     public GameObject destination;
     public ParticleSystem fireParticleSystem;
     private ParticleSystem.EmissionModule em;
     private Vector3 position_offset;
+
+    //Changeable reward weightings
+    public float RW_alignment;
+    public float RW_vertical;
 
     // TVC Parameters
     private float thrustForce = 25000f;
@@ -90,6 +95,9 @@ public class Rocket_Agent : Agent
             destination.transform.localPosition = new Vector3(0f, 1f, 0f);
 
         rb_thruster.position = position_offset + rb.position;
+
+        //Reset trajectory trail
+        trail.Clear();
     }
 
     float remapValues(float src, float src_low, float src_high, float dst_low, float dst_high)
@@ -119,6 +127,22 @@ public class Rocket_Agent : Agent
 
         // Distance to the destination
         float destinationDistance = Vector3.Distance(this.transform.localPosition, destination.transform.localPosition);
+
+
+        //Trajectory alignment
+        /*
+        Vector3 rotToTarget3D = Vector3.Normalize(this.transform.rotation * Vector3.up);
+        Vector3 posToTarget3D = Vector3.Normalize(destination.transform.localPosition - this.transform.localPosition);
+        Vector2 rotToTarget2D = new Vector2(rotToTarget3D.x, rotToTarget3D.z);
+        Vector2 posToTarget2D = new Vector2(posToTarget3D.x, posToTarget3D.z);
+        float alignment = Vector2.Dot(rotToTarget2D, posToTarget2D);
+        AddReward(RW_alignment * alignment);
+
+        //Vertical alignment
+        float vertical = Vector3.Dot(rotToTarget3D, Vector3.up);
+        AddReward(RW_vertical * vertical);
+        */
+
 
         // If collided (with ground) - End of episode rewards go here
         if (collisionFlag)
