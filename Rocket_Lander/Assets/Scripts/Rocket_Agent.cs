@@ -23,27 +23,29 @@ public class Rocket_Agent : Agent
     private ParticleSystem.EmissionModule em;
     private Vector3 position_offset;
 
-    //Changeable reward weightings
-    public float RW_alignment;
-    public float RW_vertical;
-
     // TVC Parameters
-    [SerializeField] private float thrustForce = 25000f;
+    private float thrustForce = 25000f;
     [SerializeField] private bool particlesEnabled = true;
     [SerializeField] private bool usingController = true;
 
     // Spawner Parameters
-    [SerializeField] private float xrange = 50f;
-    [SerializeField] private float zrange = 50f;
-    [SerializeField] private float ylow = 10f;
-    [SerializeField] private float yhigh = 40f;
-    [SerializeField] private float tiltAngle = 45f;
+    private float xrange = 50f;
+    private float zrange = 50f;
+    private float ylow = 30f;
+    private float yhigh = 40f;
+    private float tiltAngle = 45f;
 
     private bool collisionFlag = false;
-    [SerializeField] private float velocityThresh = 5f;
-    [SerializeField] private bool randomiseDestination = true;
-    [SerializeField] private bool thrusterTorque = true;
-    [SerializeField] private float initialVelocity = 5f;
+    private bool randomiseDestination = true;
+    private bool thrusterTorque = true;
+    private float initialVelocity = 5f;
+
+    //private float velocityThresh = 5f;
+
+    // Game Bounds
+    private float xBound = 65f;
+    private float zBound = 65f;
+    private float yBound = 65f;
 
     // Start is called before the first frame update
     void Start()
@@ -123,21 +125,6 @@ public class Rocket_Agent : Agent
         float destinationDistance = Vector3.Distance(this.transform.localPosition, destination.transform.localPosition);
 
 
-        //Trajectory alignment
-        /*
-        Vector3 rotToTarget3D = Vector3.Normalize(this.transform.rotation * Vector3.up);
-        Vector3 posToTarget3D = Vector3.Normalize(destination.transform.localPosition - this.transform.localPosition);
-        Vector2 rotToTarget2D = new Vector2(rotToTarget3D.x, rotToTarget3D.z);
-        Vector2 posToTarget2D = new Vector2(posToTarget3D.x, posToTarget3D.z);
-        float alignment = Vector2.Dot(rotToTarget2D, posToTarget2D);
-        AddReward(RW_alignment * alignment);
-
-        //Vertical alignment
-        float vertical = Vector3.Dot(rotToTarget3D, Vector3.up);
-        AddReward(RW_vertical * vertical);
-        */
-
-
         // If collided (with ground) - End of episode rewards go here
         if (collisionFlag)
         {
@@ -153,9 +140,9 @@ public class Rocket_Agent : Agent
         }
 
         // Penalise and end episode if leave bounds of training area
-        else if (rb.transform.localPosition.y >= 65f || rb.transform.localPosition.x >= 65f ||
-                 rb.transform.localPosition.x <= -65f || rb.transform.localPosition.z >= 65f ||
-                 rb.transform.localPosition.z <= -65f)
+        else if (rb.transform.localPosition.y >= yBound || rb.transform.localPosition.x >= xBound ||
+                 rb.transform.localPosition.x <= -xBound || rb.transform.localPosition.z >= zBound ||
+                 rb.transform.localPosition.z <= -zBound)
         {
             AddReward(-10.0f);
             EndEpisode();
@@ -198,7 +185,8 @@ public class Rocket_Agent : Agent
         Vector2 tvc_input;
         float throttle;
 
-        if (usingController)
+        // Checks that controller connected and enabled, else keyboard controls
+        if (usingController && Gamepad.all.Count > 0)
         {
             var gamepad = Gamepad.current;
             tvc_input = gamepad.leftStick.ReadValue();
@@ -249,7 +237,7 @@ public class Rocket_Agent : Agent
             else
             {
                 // Force w/ turning moment (full 6 DOF, translational + rotational)
-                rb.AddForceAtPosition(force, transform.TransformPoint(rb.transform.parent.localPosition));
+                rb.AddForceAtPosition(force, transform.position);
             }
 
             if (particlesEnabled)
@@ -267,7 +255,6 @@ public class Rocket_Agent : Agent
     void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.name == "Ground")
-        //if (gameObject.GetComponent<Rigidbody>().velocity.magnitude > velocityThresh)
         {
             collisionFlag = true;
         }
