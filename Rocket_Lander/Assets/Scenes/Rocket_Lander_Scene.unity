@@ -294,11 +294,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: RW_vertical
-      value: 0.1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: RW_alignment
-      value: 0.1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem
@@ -538,7 +538,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6392188699356214328, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6392188699356214335, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_RootOrder
@@ -828,11 +828,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: RW_vertical
-      value: 0.1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: RW_alignment
-      value: 0.1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem
@@ -1072,7 +1072,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6392188699356214328, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6392188699356214335, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: m_RootOrder
@@ -1278,7 +1278,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: RW_alignment
-      value: 0.5
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: fireParticleSystem
@@ -1723,7 +1723,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: RW_alignment
-      value: 0.5
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 6225062211954893375, guid: dbc333945d1853e4baef0779f3f4e476, type: 3}
       propertyPath: usingController
