@@ -1,0 +1,18 @@
+Sensors: 13 (3*position, 4*rotation, 3*velocity, 3*angular velocity)
+Actuators: 3 (joystick, throttle - mapping extended to [0,1.1] followed by clamping)
+DOF: Full DOF
+Drag: 0.1
+Angular Drag: 0.1
+RW_Alignment: 0.5
+RW_Vertical: 0.5
+
+Reward Shaping:
+Penalty for leaving environment = -10f
+Penalty for missing target = -5f
+Reward for hitting target = 5f
+Reward/Penalty based on if agent is pointing towards target (negative if pointing away)
+Reward/Penalty based on if agent is pointing vertically
+
+Experimental Results / Observations:
+TRAINED ON 2x AGENTS - ENVIRONMENT PROBLEM PERSISTS
+Agent stabilises and hovers vertically for ~1sec before trying to turn towards target and dive bombing (often over target)

@@ -1,0 +1,15 @@
+Sensors: 13 (3*position, 4*rotation, 3*velocity, 3*angular velocity)
+Actuators: 3 (joystick, throttle - mapping extended to [0,1.1] followed by clamping)
+DOF: Full DOF
+Drag: 0.1
+Angular Drag: 0.1
+
+Reward Shaping:
+Penalty for leaving environment = -10f
+Penalty for missing target = -5f
+Reward for hitting target = 5f
+Reward/Penalty based on if agent is pointing towards target (negative if pointing away)
+
+Experimental Results / Observations:
+Agent tends to track target and ends up dive-bombing towards it. This is likely because it gets rewarded for doing so.
+Tends towards being horizontal as this is where reward is highest
