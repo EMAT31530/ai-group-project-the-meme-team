@@ -67,6 +67,16 @@ public class Rocket_Agent : Agent
         this.rb.velocity = new Vector3(0f, -initialVelocity, 0f);
         rb_thruster.position = position_offset + rb.position;
     }
+	
+	// Quit the application if escape key pressed (checked each frame update)
+	void Update()
+	{
+		var keyboard = Keyboard.current;
+        if(keyboard.escapeKey.IsPressed())
+        {
+            Application.Quit();
+        }
+	}
 
     // Code executed at the beginning of each training episode
     public override void OnEpisodeBegin()
