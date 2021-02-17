@@ -1,1 +1,0 @@
-Agent appears to still be biased towards low throttle values - potential side effect of reward setting, but also from capped bounds at 0 to 1
