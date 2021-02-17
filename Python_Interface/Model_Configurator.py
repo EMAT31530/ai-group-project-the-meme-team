@@ -67,8 +67,14 @@ keep_checkpoints: How many checkpoints to keep => can use this to extract ONNX b
                   NOTE: resume loads the latest checkpoint, so hide / move files as appropriate
 checkpoint_interval: The interval at which new checkpoints are created
 
+curriculum: Whether to use curriculum learning (vary parameter and complexity over time)
+target_sizes: List of target sizes (decreasing floats, e.g [10.0, 3.0]) to be used for each lesson
+target_step_fraction: Fraction through training to decrease step (length one less than target_sizes)
+min_lesson_length: Integer specifying the minimum length of a lesson
+
 ==========================================================================================================
 """
+
 
 # Set hyperparameters
 batch_size = 2048
@@ -89,6 +95,12 @@ time_horizon = 64
 summary_freq = 10000
 keep_checkpoints = 5
 checkpoint_interval = 50000
+
+# Configure curriculum learning
+curriculum = True
+target_sizes = [10.0, 8.0, 6.0, 3.0]
+target_step_fraction = [0.3, 0.5, 0.7]
+min_lesson_length = 100
 
 
 # Get current working directory, and config directory
@@ -129,8 +141,28 @@ with open(run_id+".yaml","w") as file:
     time_horizon: {time_horizon}
     summary_freq: {summary_freq}
     keep_checkpoints: {keep_checkpoints}
-    checkpoint_interval: {checkpoint_interval}
+    checkpoint_interval: {checkpoint_interval}\n
 """)
+
+    # Write curriculum information if relevant
+    if curriculum:
+        file.write("""environment_parameters:
+  target_size:
+      curriculum:\n""")
+
+        for i in range(len(target_sizes)-1):
+            file.write(f"""          - name: Lesson{i+1}
+            completion_criteria:
+              measure: progress
+              behavior: RocketLander
+              signal_smoothing: true
+              min_lesson_length: {min_lesson_length}
+              threshold: {target_step_fraction[i]}
+              {"require_reset: false" if i!=0 else ""}
+            value: {target_sizes[i]}\n""")
+
+        file.write(f"""          - name: Lesson_{len(target_sizes)+1}
+            value: {target_sizes[-1]}""")
 
 
 # Change back to default directory
@@ -163,6 +195,7 @@ try:
 # Capture crash event, if appropriate (can post-process separately)
 except Exception as e:
     success_flag = False
+    #print(e)
 
 
 # Change to target results folder
@@ -184,3 +217,4 @@ for name in files:
 # as if in a training loop for the purpose of transfering to wandb.ai
 
 #print("Process completed: ", success_flag)
+
