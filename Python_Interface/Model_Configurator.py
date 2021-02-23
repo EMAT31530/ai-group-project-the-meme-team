@@ -98,7 +98,7 @@ checkpoint_interval = 50000
 
 # Configure curriculum learning
 curriculum = True
-target_sizes = [10.0, 8.0, 6.0, 3.0]
+target_sizes = [11.0, 9.0, 7.0, 5.0]
 target_step_fraction = [0.3, 0.5, 0.7]
 min_lesson_length = 100
 
