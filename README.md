@@ -22,7 +22,8 @@ When using weights and biases for the first time:
 1) run: pip install --upgrade wandb
 2) Copy API authorisation code from: https://wandb.ai/authorize
 3) run: wandb login *Your authorisation code*
-4) To run tensorboard_trial.py, use this (from the ai-group-project directory):
+
+To run tensorboard_trial.py, use this (from the ai-group-project directory):
 
 python .\tensorboard_trial.py .\Agent_Training\results\2021.02.10_1700_RocketLander_SR\RocketLander\events.out.tfevents.1612976372.DESKTOP-6RE48I1.13812.0
 
