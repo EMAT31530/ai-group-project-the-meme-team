@@ -134,3 +134,4 @@ Python_Interface/Unity_Compiled_Files/*
 
 # Ignore all checkpoint files (due to size)
 Python_Interface/results/*/RocketLander/*
+!Python_Interface/results/*/RocketLander/*vents.out.tfevents*
