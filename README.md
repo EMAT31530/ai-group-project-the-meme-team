@@ -17,6 +17,16 @@ A new model can be trained by running the "mlagents-learn config/<CONFIG_NAME>.y
 
 Training results can be viewed using Tensorboard by using the "tensorboard --logdir <RUNID_NAME>" command from the "Agent_Training" directory, followed by opening "localhost:6060" using a web browser. An accompanying text file (e.g. "Description.txt") will be located within each result folder to store a summary of experimental settings and interpretation of results.
 
+## Tensorboard logging & weights and biases usage instructions
+When using weights and biases for the first time:
+1) run: pip install --upgrade wandb
+2) Copy API authorisation code from: https://wandb.ai/authorize
+3) run: wandb login *Your authorisation code*
+
+To run tensorboard_trial.py, use this (from the ai-group-project directory):
+
+python .\tensorboard_trial.py .\Agent_Training\results\2021.02.10_1700_RocketLander_SR\RocketLander\events.out.tfevents.1612976372.DESKTOP-6RE48I1.13812.0
+
 ## Team Members:  
 Dan Rodrigues  
 Ollie Fogg  
