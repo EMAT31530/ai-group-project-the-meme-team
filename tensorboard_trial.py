@@ -37,6 +37,7 @@ def main():
 	categories_list = event_acc.Tags()['scalars']
     
 	for cat_index,category in enumerate(categories_list):
+		print(cat_index, category)
 		cat_data[0,cat_index+1]=category
 		for value_index, s in enumerate(event_acc.Scalars(category)):
 			value_temp = s.value
@@ -44,13 +45,13 @@ def main():
 			int_data[value_index+1,0]= step_temp
 			int_data[value_index+1,cat_index+1]=value_temp
 
-	#Sort array by ascending order of step to avoid wandb error
+	# Sort array by ascending order of step to avoid wandb error
 	int_data = int_data[np.argsort(int_data[:, 0])]
 	cat_data[1:,:]=int_data[1:,:]
 	
 	wandb.init(project="test-drive-2", config=param_dict)
 	for row in range(1,rows):
-		for column in range(1,columns-1):
+		for column in range(1,columns):
 			category = cat_data[0,column]
 			if(cat_data[row,column]==None):
 				log_value=None
