@@ -1,0 +1,24 @@
+{
+    "os": "Windows-10-10.0.19041-SP0",
+    "python": "3.8.3",
+    "heartbeatAt": "2021-02-23T19:57:12.383411",
+    "startedAt": "2021-02-23T19:57:09.018942",
+    "docker": null,
+    "cpu_count": 12,
+    "cuda": null,
+    "args": [
+        ".\\Agent_Training\\results\\2021.02.10_1700_RocketLander_SR\\RocketLander\\events.out.tfevents.1612976372.DESKTOP-6RE48I1.13812.0"
+    ],
+    "state": "running",
+    "codePath": "tensorboard_trial.py",
+    "program": ".\\tensorboard_trial.py",
+    "git": {
+        "remote": "https://github.com/EMAT31530/ai-group-project-the-meme-team.git",
+        "commit": "4a7af3cfb377bad00f8557174e3d7b4c5586e44a"
+    },
+    "email": "62658536+smruthi-radhakrishnan@users.noreply.github.com",
+    "root": "C:/Users/smrut/OneDrive/Documents/GitHub/ai-group-project-the-meme-team",
+    "host": "DESKTOP-6RE48I1",
+    "username": "smrut",
+    "executable": "C:\\Users\\smrut\\miniconda3\\python.exe"
+}

@@ -1,0 +1,28 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.10.19
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    python_version: 3.8.3
+    t:
+      3:
+      - 2
+      4: 3.8.3
+      5: 0.10.19
+      8:
+      - 3
+architecture:
+  desc: null
+  value: CNN
+dataset:
+  desc: null
+  value: CIFAR-100
+dropout:
+  desc: null
+  value: 0.2
+learning_rate:
+  desc: null
+  value: 0.02
