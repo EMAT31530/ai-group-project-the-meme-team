@@ -81,7 +81,7 @@ batch_size = 2048
 buffer_size = 5096
 learning_rate = 2.5e-4
 beta = 1.0e-3
-epsilon = 0.2
+epsilon = 0.4
 lambd = 0.99
 num_epoch = 3
 learning_rate_schedule = "linear"
@@ -98,7 +98,7 @@ checkpoint_interval = 50000
 
 # Configure curriculum learning
 curriculum = True
-target_sizes = [10.0, 8.0, 6.0, 3.0]
+target_sizes = [11.0, 9.0, 7.0, 5.0]
 target_step_fraction = [0.3, 0.5, 0.7]
 min_lesson_length = 100
 
