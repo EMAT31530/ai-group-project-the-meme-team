@@ -10,6 +10,13 @@ In order to install the required Python libraries, use "pip install -r requireme
 
 Unity version 2020.2.0f1 has been used to develop the simulation, using the ML Agents (v1.7.2-preview) and Input System (v1.0.1) packages from the Unity Registry.
 
+### Weights and biases set-up instructions
+When using weights and biases for the first time:
+1) Run: pip install --upgrade wandb
+2) Login to weights and biases (https://wandb.ai/login) and copy API authorisation code from: https://wandb.ai/authorize
+3) Run: wandb login *Your authorisation code*
+
+
 ## File Structure / Usage Information
 The Unity simulation environment is located within the "Rocket_Lander" directory, whereas the trained agent files are located within the "Agent_Training" directory. Within the Agent_Training directory, there is a subdirectory for config (.YAML) files and results from the training procedure. All files should ideally be prefixed with a timestamp for traceability. 
 
