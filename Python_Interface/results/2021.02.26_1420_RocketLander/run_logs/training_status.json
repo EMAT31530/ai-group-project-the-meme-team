@@ -1,0 +1,51 @@
+{
+    "target_size": {
+        "lesson_num": 3
+    },
+    "RocketLander": {
+        "checkpoints": [
+            {
+                "steps": 99849954,
+                "file_path": "results\\2021.02.26_1420_RocketLander\\RocketLander\\RocketLander-99849954.onnx",
+                "reward": -6.5271673679351805,
+                "creation_time": 1614372685.4421809
+            },
+            {
+                "steps": 99899998,
+                "file_path": "results\\2021.02.26_1420_RocketLander\\RocketLander\\RocketLander-99899998.onnx",
+                "reward": -4.643888282775879,
+                "creation_time": 1614372696.8716
+            },
+            {
+                "steps": 99949961,
+                "file_path": "results\\2021.02.26_1420_RocketLander\\RocketLander\\RocketLander-99949961.onnx",
+                "reward": -5.999840774956872,
+                "creation_time": 1614372708.8014364
+            },
+            {
+                "steps": 99999966,
+                "file_path": "results\\2021.02.26_1420_RocketLander\\RocketLander\\RocketLander-99999966.onnx",
+                "reward": -2.1687167485555015,
+                "creation_time": 1614372720.6983721
+            },
+            {
+                "steps": 100000835,
+                "file_path": "results\\2021.02.26_1420_RocketLander\\RocketLander\\RocketLander-100000835.onnx",
+                "reward": -5.570666021770901,
+                "creation_time": 1614372720.78514
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 100000835,
+            "file_path": "results\\2021.02.26_1420_RocketLander\\RocketLander.onnx",
+            "reward": -5.570666021770901,
+            "creation_time": 1614372720.78514
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.2.0",
+        "mlagents_version": "0.23.0",
+        "torch_version": "1.7.1+cpu",
+        "tensorflow_version": "2.0.0"
+    }
+}
