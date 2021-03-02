@@ -3,59 +3,65 @@ import wandb
 wandb.login
 
 #Multiple types of search are available can be defined as below:
-#Search for grid search change method to 'grid'. Bayesian is a little more advanced as commented out below
+#method can be 'random' or'grid'. remove the 'metric' term to use these.
 sweep_config = {
-                'method': 'random'
+                'method': 'bayes'
+                'metric': { #use only for bayesian searches
+                            'name': 'loss',
+                            'goal': 'minimize'   #if want sle. for accuracy, 'minimize' should be the 'goal'
+                            }
+                            
                 'parameters':{
-                    #Hyperparameters taken from config.yaml file
+                    #Hyperparameters taken from config.yaml file, original values commented out
                     'batch_size':{ 
-                        'values': [2048] }
+                        'values': [512,5120] } #old 2048   for disc 32,512 cont 512,5120 should always be a fraction of buffer size. cont: 1000s, disc 10s
                     'buffer_size':{
-                        'values': [5096] }
+                        'values': [2048, 409600] } #5096
                     'learning_rate':{
-                        'values': [0.00025]}
+                        'values': [1e-5 ,1e-3]} # 0.00025
                     'beta':{
-                        'values': [0.001]}
+                        'values': [1e-4, 1e-2]} # 0.001
                     'epsilon':{
-                        'values': [0.2]}
+                        'values': [0.2]} #  0.2
                     'lambd': {
-                        'values': {[0.99]}
+                        'values': {[0.9,0.95]} # 0.99
                     'num_epoch':{ 
-                        'values': [3]}
-                    learning_rate_schedule: linear
-                    #network_settings:
-                    normalize: true
+                        'values': [3,10]}   #3
+                    # learning_rate_schedule: linear
+                    #network_settings:1e-3
+                    # normalize: true
                     'hidden_units':{
-                        'values': [256]}
+                        'values': [32,512]} # 256
                     'num_layers': {
-                        'values': [2]}
+                        'values': [1,3]}  #2
                     #reward_signals:
                     extrinsic:
                     'gamma':{
-                        'values': [0.99]}
-                    'strength':{
-                        'values': [1.0]}
+                        'values': [0.8, 0.995]} #0.99
+                    # 'strength':{
+                        # 'values': [1.0]} 
                     #'max_steps': 100000000.0
-                    #'time_horizon': 64
+                    'time_horizon':{
+                        'values':[32,2048]} #64
                     #'summary_freq': 50000
                     }   
        
                 }
-                
-# #Bayesian Search method is titled 'bayes'
-# Also requires additional metric definition:
-# metric = {
-    # 'name': 'loss',
-    # 'goal': 'minimize'   #if want sle. for accuracy, 'minimize' should be the 'goal'
-    # }
-
-#sweep_config['metric'] = metric
+   
+  # constant parameters:
+   
+   strength:1
+   max_steps: 1e-9
+   summary_freq: 50000
+   network_settings: 1e-3
+   normalize: true
+   learning_rate_schedule: linear
 
 
 #To intialise the parameter sweep: this should provide a link to the sweep in the browser to use and track the runs.
 sweep_id= wandb.sweep(sweep_config)
 
-# The agent then needs to run as the corresponding function naming converntion below:
+# The agent then needs to run as the corresponding function naming convention below:
 
 def train():
 
