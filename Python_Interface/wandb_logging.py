@@ -52,7 +52,7 @@ def wb_log(path_to_events_file, config):
                 for scalar in scalars:
                         if step in steps[scalar]:
                                 step_index = steps[scalar].index(step)
-                                print("Step: ", step, "Scalar: ", scalar, "Step position in dict: ", step_index, "Corresponding value: ", values[scalar][step_index])
+                                #print("Step: ", step, "Scalar: ", scalar, "Step position in dict: ", step_index, "Corresponding value: ", values[scalar][step_index])
                                 wandb.log({scalar: values[scalar][step_index]}, step=step)
 
         wandb.finish()
