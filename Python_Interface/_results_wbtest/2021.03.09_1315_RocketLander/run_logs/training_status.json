@@ -1,0 +1,27 @@
+{
+    "target_size": {
+        "lesson_num": 0
+    },
+    "RocketLander": {
+        "checkpoints": [
+            {
+                "steps": 10050,
+                "file_path": "results\\2021.03.09_1315_RocketLander\\RocketLander\\RocketLander-10050.onnx",
+                "reward": -10.308673958624563,
+                "creation_time": 1615295760.4579058
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 10050,
+            "file_path": "results\\2021.03.09_1315_RocketLander\\RocketLander.onnx",
+            "reward": -10.308673958624563,
+            "creation_time": 1615295760.4579058
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.2.0",
+        "mlagents_version": "0.23.0",
+        "torch_version": "1.7.1",
+        "tensorflow_version": "2.2.0"
+    }
+}

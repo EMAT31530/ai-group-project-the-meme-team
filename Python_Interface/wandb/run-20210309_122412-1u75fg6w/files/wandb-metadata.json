@@ -1,0 +1,22 @@
+{
+    "os": "Windows-10-10.0.19041-SP0",
+    "python": "3.8.7",
+    "heartbeatAt": "2021-03-09T12:24:16.206147",
+    "startedAt": "2021-03-09T12:24:12.689718",
+    "docker": null,
+    "cpu_count": 16,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "D:\\Documents\\GitHub\\ai-group-project-the-meme-team\\Python_Interface\\Model_Configurator.py",
+    "codePath": "Python_Interface\\Model_Configurator.py",
+    "git": {
+        "remote": "https://github.com/EMAT31530/ai-group-project-the-meme-team.git",
+        "commit": "9d246660945900a3c4988b5224c7337de162cf9c"
+    },
+    "email": "danrodrigues999@gmail.com",
+    "root": "D:/Documents/GitHub/ai-group-project-the-meme-team",
+    "host": "Dan-PC",
+    "username": "Daniel Rodrigues",
+    "executable": "C:\\Users\\Daniel Rodrigues\\AppData\\Local\\Programs\\Python\\Python38\\pythonw.exe"
+}

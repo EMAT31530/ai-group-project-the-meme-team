@@ -1,0 +1,16 @@
+{
+    "os": "Windows-10-10.0.19041-SP0",
+    "python": "3.8.3",
+    "heartbeatAt": "2021-03-03T12:36:42.454076",
+    "startedAt": "2021-03-03T12:36:35.727558",
+    "docker": null,
+    "cpu_count": 4,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "codePath": "WandB_Hyperparameter_Sweep.py",
+    "program": "WandB_Hyperparameter_Sweep.py",
+    "host": "JacobsHP840",
+    "username": "HP",
+    "executable": "C:\\Users\\HP\\anaconda3\\python.exe"
+}

@@ -127,3 +127,20 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Unity Compiled Files (but keeping file structure)
+#Python_Interface/Unity_Compiled_Files/*
+#!Python_Interface/Unity_Compiled_Files/.gitkeep 
+
+# Ignore all checkpoint files (due to size)
+Python_Interface/results/*/RocketLander/*
+!Python_Interface/results/*/RocketLander/*vents.out.tfevents*
+
+Python_Interface/_results_manual/*/RocketLander/*
+!Python_Interface/_results_manual/*/RocketLander/*vents.out.tfevents*
+
+# Ignore all WandB files => already present on the cloud platform
+Python_Interface/wandb/*
+
+# Ignore all config files => implicitly logged on WandB
+Python_Interface/config/*

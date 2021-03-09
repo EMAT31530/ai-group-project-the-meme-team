@@ -1,0 +1,12 @@
+wandb_version: 1
+
+beta:
+  value: 0.004551906385190459
+epsilon:
+  value: 0.3551008228991942
+gamma:
+  value: 0.8226749308440271
+lambda:
+  value: 0.9245376922598083
+learning_rate:
+  value: 0.0007644363731655007

@@ -1,0 +1,58 @@
+behaviors:
+      RocketLander:
+        trainer_type: ppo
+        hyperparameters:
+          batch_size: 2048
+          buffer_size: 5096
+          learning_rate: 0.0007504401885773163
+          beta: 0.0016279237605067427
+          epsilon: 0.30459422672274694
+          lambd: 0.99
+          num_epoch: 3
+          learning_rate_schedule: linear
+        network_settings:
+          normalize: true
+          hidden_units: 256
+          num_layers: 2
+        reward_signals:
+          extrinsic:
+            gamma: 0.9794912269476355
+            strength: 1.0
+        max_steps: 1000.0
+        time_horizon: 64
+        summary_freq: 10000
+        keep_checkpoints: 5
+        checkpoint_interval: 50000
+
+    environment_parameters:
+      target_size:
+          curriculum:
+          - name: Lesson1
+                completion_criteria:
+                  measure: progress
+                  behavior: RocketLander
+                  signal_smoothing: true
+                  min_lesson_length: 100
+                  threshold: 0.3
+                  
+                value: 11.0
+          - name: Lesson2
+                completion_criteria:
+                  measure: progress
+                  behavior: RocketLander
+                  signal_smoothing: true
+                  min_lesson_length: 100
+                  threshold: 0.5
+                  require_reset: false
+                value: 9.0
+          - name: Lesson3
+                completion_criteria:
+                  measure: progress
+                  behavior: RocketLander
+                  signal_smoothing: true
+                  min_lesson_length: 100
+                  threshold: 0.7
+                  require_reset: false
+                value: 7.0
+          - name: Lesson_5
+                value: 5.0

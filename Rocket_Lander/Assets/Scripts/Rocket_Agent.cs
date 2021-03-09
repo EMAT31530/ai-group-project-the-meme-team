@@ -43,9 +43,14 @@ public class Rocket_Agent : Agent
     //private float velocityThresh = 5f;
 
     // Game Bounds
-    private float xBound = 65f;
-    private float zBound = 65f;
+    private float xBound = 50f;
+    private float zBound = 50f;
     private float yBound = 65f;
+
+    private int starting_lifetime = 500;
+    private int lifetime;
+
+    private float maxDistanceToTarget = 30f;
 
     // Start is called before the first frame update
     void Start()
@@ -56,17 +61,53 @@ public class Rocket_Agent : Agent
         em = fireParticleSystem.emission;
         em.enabled = false;
 
+        // Set a random position and rotation
         this.transform.localPosition = new Vector3(Random.Range(-xrange / 2, xrange / 2), Random.Range(ylow, yhigh), Random.Range(-zrange / 2, zrange / 2));
         this.transform.localRotation = Quaternion.Euler(Random.Range(-tiltAngle, tiltAngle), 0, Random.Range(-tiltAngle, tiltAngle));
 
+        // Create destination at random (or determined) location
         if (randomiseDestination)
-            destination.transform.localPosition = new Vector3(Random.Range(-xrange / 2, xrange / 2), 1f, Random.Range(-zrange / 2, zrange / 2));
-        else
-            destination.transform.localPosition = new Vector3(0f, 1f, 0f);
+        {
+            destination.transform.localPosition = new Vector3(Random.Range(-xrange / 2, xrange / 2), 1f,
+                Random.Range(-zrange / 2, zrange / 2));
 
+            // Enforce a maximum distance criterion (move target closer if too far)
+            Vector2 targetDistanceCheck = new Vector2(this.destination.transform.localPosition.x - transform.localPosition.x, destination.transform.localPosition.z - this.transform.localPosition.z);
+            if (targetDistanceCheck.magnitude > maxDistanceToTarget)
+            {
+                Vector2 scaledTargetPositionVec = targetDistanceCheck * maxDistanceToTarget / targetDistanceCheck.magnitude;
+                destination.transform.localPosition = new Vector3(transform.localPosition.x + scaledTargetPositionVec.x, 1f, transform.localPosition.z + scaledTargetPositionVec.y);
+            }
+        }
+        else
+        {
+            destination.transform.localPosition = new Vector3(0f, 1f, 0f);
+        }
+
+        // Set initial velocity
         this.rb.velocity = new Vector3(0f, -initialVelocity, 0f);
         rb_thruster.position = position_offset + rb.position;
+
+        // Restart lifetime countdown
+        lifetime = starting_lifetime;
+
+        // Fetch target size from environment parameters (for Curriculum Learning)
+        float targetSize = Academy.Instance.EnvironmentParameters.GetWithDefault("target_size", 5.0f);
+
+        // Update particle system radius to reflect change in targetSize
+        ParticleSystem.ShapeModule targetDrawShape = destination.GetComponent<ParticleSystem>().shape;
+        targetDrawShape.radius = targetSize;
     }
+	
+	// Quit the application if escape key pressed (checked each frame update)
+	void Update()
+	{
+		var keyboard = Keyboard.current;
+        if(keyboard.escapeKey.IsPressed())
+        {
+            Application.Quit();
+        }
+	}
 
     // Code executed at the beginning of each training episode
     public override void OnEpisodeBegin()
@@ -86,14 +127,30 @@ public class Rocket_Agent : Agent
 
         // Randomise destination location
         if (randomiseDestination)
-            destination.transform.localPosition = new Vector3(Random.Range(-xrange / 2, xrange / 2), 1f, Random.Range(-zrange / 2, zrange / 2));
+        {
+            destination.transform.localPosition = new Vector3(Random.Range(-xrange / 2, xrange / 2), 1f,
+                Random.Range(-zrange / 2, zrange / 2));
+            
+            // Enforce a maximum distance criterion (move target closer if too far)
+            Vector2 targetDistanceCheck = new Vector2(this.destination.transform.localPosition.x - transform.localPosition.x, destination.transform.localPosition.z - this.transform.localPosition.z);
+            if (targetDistanceCheck.magnitude > maxDistanceToTarget)
+            {
+                Vector2 scaledTargetPositionVec = targetDistanceCheck * maxDistanceToTarget / targetDistanceCheck.magnitude;
+                destination.transform.localPosition = new Vector3(transform.localPosition.x + scaledTargetPositionVec.x, 1f, transform.localPosition.z + scaledTargetPositionVec.y);
+            }
+        }
         else
+        {
             destination.transform.localPosition = new Vector3(0f, 1f, 0f);
+        }
 
         rb_thruster.position = position_offset + rb.position;
 
         //Reset trajectory trail
         trail.Clear();
+
+        // Restart lifetime countdown
+        lifetime = starting_lifetime;
     }
 
     float remapValues(float src, float src_low, float src_high, float dst_low, float dst_high)
@@ -124,13 +181,20 @@ public class Rocket_Agent : Agent
         // Distance to the destination
         float destinationDistance = Vector3.Distance(this.transform.localPosition, destination.transform.localPosition);
 
+        // Fetch target size from environment parameters (for Curriculum Learning)
+        float targetSize = Academy.Instance.EnvironmentParameters.GetWithDefault("target_size", 5.0f);
+
+        // Update particle system radius to reflect change in targetSize
+        ParticleSystem.ShapeModule targetDrawShape = destination.GetComponent<ParticleSystem>().shape;
+        targetDrawShape.radius = targetSize;
 
         // If collided (with ground) - End of episode rewards go here
-        if (collisionFlag)
+        // Also check for being too low, in case clips through ground
+        if (collisionFlag || rb.transform.localPosition.y <= -2.0f)
         {
 
             // Goal arrival reward
-            if (destinationDistance < 3)
+            if (destinationDistance < targetSize)
                 AddReward(5.0f);
             else
                 AddReward(-5.0f);
@@ -150,6 +214,17 @@ public class Rocket_Agent : Agent
 
         // Linear Distance Penalty
         AddReward(-1 * (destinationDistance / 1000f));
+
+        // Decrement agent lifetime
+        lifetime--;
+
+        // If lifetime expires, end episode and penalise for failing to reach target
+        if (lifetime == 0)
+        {
+            AddReward(-3.0f);
+            EndEpisode();
+        }
+
 
     }
 
