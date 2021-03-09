@@ -12,18 +12,12 @@ import matplotlib.pyplot as plt
 
 np.set_printoptions(threshold=sys.maxsize)
 
-def wb_log():
-	path_to_events_file = sys.argv[1]
+def wb_log(path_to_events_file):
+	#path_to_events_file = sys.argv[1]
 	for root, dirs, files in os.walk(path_to_events_file):
 		for file in files:
 			if "tfevents" in file:
 				path_to_events_file = os.path.join(root, file)
-		
-	param_dict = {"steps": 1e8,
-	                           "batch_size": 1024,
-	                           "gamma": 0.99,
-	                           "lambda": 0.95
-	                           }
 
 	tf_size_guidance = {
 	    'compressedHistograms': 10,
@@ -69,5 +63,5 @@ def wb_log():
 
 if __name__=="__main__":
     wandb.init(project="test-drive-2", config=param_dict)
-    wb_log()
+    wb_log(sys.argv[1])
     quit()

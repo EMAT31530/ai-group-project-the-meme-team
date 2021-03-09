@@ -1,0 +1,40 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.10.21
+    framework: tensorflow
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    python_version: 3.8.7
+    t:
+      1:
+      - 3
+      2:
+      - 3
+      3:
+      - 2
+      4: 3.8.7
+      5: 0.10.21
+      8:
+      - 3
+      - 5
+beta:
+  desc: null
+  value: 0.0016279237605067427
+epsilon:
+  desc: null
+  value: 0.30459422672274694
+gamma:
+  desc: null
+  value: 0.9794912269476355
+lambd:
+  desc: null
+  value: 0.99
+lambda:
+  desc: null
+  value: 0.9135184296477131
+learning_rate:
+  desc: null
+  value: 0.0007504401885773163

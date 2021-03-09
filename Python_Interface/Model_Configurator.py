@@ -11,6 +11,8 @@ from datetime import datetime
 from socket import socket
 import wandb
 
+from tensorboard_trial import wb_log
+
 
 #wandb.login
 
@@ -18,8 +20,8 @@ sweep_config = {
                 'method': 'bayes',
                 
                 'metric': { #use only for bayesian searches
-                            'name': 'loss',
-                            'goal': 'minimize'   #if want sle. for accuracy, 'minimize' should be the 'goal'
+                            'name': 'Environment/Cumulative Reward',
+                            'goal': 'maximise'   #if want sle. for accuracy, 'minimize' should be the 'goal'
                             },
                             
                 'parameters':{
@@ -71,13 +73,12 @@ sweep_config = {
                     # 'learning_rate_schedule': 'linear',
                     # 'network_settings':1e-3,
                                 }   
-       
             }
 
-
-wandb.init(name='Rocket_Lander_2021.03.03_1234_JAH', 
+# Could integrate with datetime
+wandb.init(name='Rocket_Lander_2021.03.09_1220', 
            project='rocketlander',
-           notes='This is a test run 2', 
+           notes='This is a test run', 
            tags=['RocketLander', 'Test Run'],
            entity='uob_rocket_lander',
            )
@@ -153,6 +154,7 @@ def training_cycle():
 
     # WandB Hyperparameter Optimisation config might go here?
 
+    """
     # Core hyperparameters
     batch_size = 2048
     buffer_size = 5096
@@ -167,7 +169,43 @@ def training_cycle():
     strength = 1.0
     max_steps = 1e8
     time_horizon = 64
+    """
 
+    # WandB changing hyperparameters
+    # Core hyperparameters
+    config_defaults = {
+        "learning_rate" : 2.5e-4,
+        "beta" : 1.0e-3,
+        "epsilon" : 0.4,
+        "lambd" : 0.99,
+        "gamma" : 0.99
+        }
+
+
+    # Initialize a new wandb run
+    wandb.init(config=config_defaults)
+
+    # Config is a variable that holds and saves hyperparameters and inputs
+    config = wandb.config
+
+
+    # Assign the config values to the hyperpameters
+    learning_rate = config.learning_rate
+    beta = config.beta
+    epsilon = config.epsilon
+    lambd = config.lambd
+    gamma = config.gamma
+    
+
+    # Constant hyperparameters
+    batch_size = 2048
+    buffer_size = 5096
+    num_epoch = 3
+    hidden_units = 256
+    num_layers = 2
+    strength = 1.0
+    max_steps = 1e3 #1e8
+    time_horizon = 64
 
     # Additional hyperparameters
     learning_rate_schedule = "linear"
@@ -300,8 +338,11 @@ def training_cycle():
     
     # print("Process completed: ", success_flag)
 
+    # Change back to default directory
+    os.chdir(cwd)
+    
     # WandB performance logging might go here
-
+    wb_log(os.path.join("results", run_id))
 
 
 if __name__ == "__main__":
