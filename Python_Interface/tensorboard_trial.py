@@ -12,56 +12,62 @@ import matplotlib.pyplot as plt
 
 np.set_printoptions(threshold=sys.maxsize)
 
-def wb_log(path_to_events_file):
-	#path_to_events_file = sys.argv[1]
-	for root, dirs, files in os.walk(path_to_events_file):
-		for file in files:
-			if "tfevents" in file:
-				path_to_events_file = os.path.join(root, file)
+def wb_log(path_to_events_file, config):
 
-	tf_size_guidance = {
-	    'compressedHistograms': 10,
-	    'images': 0,
-	    'scalars': 1e8,
-	    'histograms': 1
-	}
+        wandb.config = config
         
-	event_acc = EventAccumulator(path_to_events_file, tf_size_guidance)
-	event_acc.Reload()
+        #path_to_events_file = sys.argv[1]
+        for root, dirs, files in os.walk(path_to_events_file):
+                for file in files:
+                        if "tfevents" in file:
+                                path_to_events_file = os.path.join(root, file)
+                                #print(path_to_events_file)
 
-	rows = len(event_acc.Scalars('Is Training')) + 1
-	columns = len(event_acc.Tags()['scalars']) + 1
+       # print(path_to_events_file)
 
-	#Create empty dictionary for scalar step and value data
-	steps = {}
-	values = {}
-	#Fetch list of scalars
-	scalars = list(event_acc.Tags()['scalars'])
+        tf_size_guidance = {
+            'compressedHistograms': 10,
+            'images': 0,
+            'scalars': 1e8,
+            'histograms': 1
+        }
+        
+        event_acc = EventAccumulator(path_to_events_file, tf_size_guidance)
+        event_acc.Reload()
 
-	# Iterate through scalars, and add the relevant components to the dictionary
-	for scalar in scalars:
-		steps[scalar] = [item.step for item in event_acc.Scalars(scalar)]
-		values[scalar] = [item.value for item in event_acc.Scalars(scalar)]
-		unique_steps = sorted(set(step for step in steps[scalar]))
+        rows = len(event_acc.Scalars('Is Training')) + 1
+        columns = len(event_acc.Tags()['scalars']) + 1
 
-	# print(scalars)
+        #Create empty dictionary for scalar step and value data
+        steps = {}
+        values = {}
+        #Fetch list of scalars
+        scalars = list(event_acc.Tags()['scalars'])
 
-	# wandb.init(project="test-drive-2", config=param_dict)
+        # Iterate through scalars, and add the relevant components to the dictionary
+        for scalar in scalars:
+                steps[scalar] = [item.step for item in event_acc.Scalars(scalar)]
+                values[scalar] = [item.value for item in event_acc.Scalars(scalar)]
+                unique_steps = sorted(set(step for step in steps[scalar]))
 
-	for step in unique_steps:
-		for scalar in scalars:
-			if step in steps[scalar]:
-				step_index = steps[scalar].index(step)
-				# print("Step: ", step, "Scalar: ", scalar, "Step position in dict: ", step_index, "Corresponding value: ", values[scalar][step_index])
-				wandb.log({scalar: values[scalar][step_index]}, step=step)
+        # print(scalars)
 
-	# wandb.log.run.summary("accuracy"= )
+        # wandb.init(project="test-drive-2", config=param_dict)
+
+        for step in unique_steps:
+                for scalar in scalars:
+                        if step in steps[scalar]:
+                                step_index = steps[scalar].index(step)
+                                print("Step: ", step, "Scalar: ", scalar, "Step position in dict: ", step_index, "Corresponding value: ", values[scalar][step_index])
+                                wandb.log({scalar: values[scalar][step_index]}, step=step)
+
+        # wandb.log.run.summary("accuracy"= )
 
 
-	wandb.finish()
-	# quit()
+        wandb.finish()
+        # quit()
 
-if __name__=="__main__":
-    wandb.init(project="test-drive-2", config=param_dict)
-    wb_log(sys.argv[1])
-    quit()
+#if __name__=="__main__":
+    #wandb.init(project="test-drive-2", config=param_dict)
+    #wb_log(sys.argv[1])
+    #quit()

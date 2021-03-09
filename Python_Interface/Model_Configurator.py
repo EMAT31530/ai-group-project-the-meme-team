@@ -84,7 +84,7 @@ wandb.init(name='Rocket_Lander_2021.03.09_1220',
            )
 
 #To intialise the parameter sweep: this should provide a link to the sweep in the browser to use and track the runs.
-sweep_id= wandb.sweep(sweep_config)
+sweep_id = wandb.sweep(sweep_config, project='rocketlander', entity='uob_rocket_lander')
 
 # Wrapped training / execution logic within function
 # This is to allow for call from WandB agent
@@ -181,13 +181,12 @@ def training_cycle():
         "gamma" : 0.99
         }
 
-
+    
     # Initialize a new wandb run
     wandb.init(config=config_defaults)
 
     # Config is a variable that holds and saves hyperparameters and inputs
     config = wandb.config
-
 
     # Assign the config values to the hyperpameters
     learning_rate = config.learning_rate
@@ -195,7 +194,11 @@ def training_cycle():
     epsilon = config.epsilon
     lambd = config.lambd
     gamma = config.gamma
-    
+    """learning_rate = 2.5e-4
+    beta = 1.0e-3
+    epsilon = 0.4
+    lambd = 0.99
+    gamma = 0.99"""
 
     # Constant hyperparameters
     batch_size = 2048
@@ -204,7 +207,7 @@ def training_cycle():
     hidden_units = 256
     num_layers = 2
     strength = 1.0
-    max_steps = 1e3 #1e8
+    max_steps = 1e5 #1e8
     time_horizon = 64
 
     # Additional hyperparameters
@@ -236,53 +239,52 @@ def training_cycle():
     # Write YAML contents to config file
     with open(run_id+".yaml","w") as file:
         file.write(f"""behaviors:
-      RocketLander:
-        trainer_type: ppo
-        hyperparameters:
-          batch_size: {batch_size}
-          buffer_size: {buffer_size}
-          learning_rate: {learning_rate}
-          beta: {beta}
-          epsilon: {epsilon}
-          lambd: {lambd}
-          num_epoch: {num_epoch}
-          learning_rate_schedule: {learning_rate_schedule}
-        network_settings:
-          normalize: {normalize}
-          hidden_units: {hidden_units}
-          num_layers: {num_layers}
-        reward_signals:
-          extrinsic:
-            gamma: {gamma}
-            strength: {strength}
-        max_steps: {max_steps}
-        time_horizon: {time_horizon}
-        summary_freq: {summary_freq}
-        keep_checkpoints: {keep_checkpoints}
-        checkpoint_interval: {checkpoint_interval}\n
-    """)
+  RocketLander:
+    trainer_type: ppo
+    hyperparameters:
+      batch_size: {batch_size}
+      buffer_size: {buffer_size}
+      learning_rate: {learning_rate}
+      beta: {beta}
+      epsilon: {epsilon}
+      lambd: {lambd}
+      num_epoch: {num_epoch}
+      learning_rate_schedule: {learning_rate_schedule}
+    network_settings:
+      normalize: {normalize}
+      hidden_units: {hidden_units}
+      num_layers: {num_layers}
+    reward_signals:
+      extrinsic:
+        gamma: {gamma}
+        strength: {strength}
+    max_steps: {max_steps}
+    time_horizon: {time_horizon}
+    summary_freq: {summary_freq}
+    keep_checkpoints: {keep_checkpoints}
+    checkpoint_interval: {checkpoint_interval}\n\n""")
 
         # Write curriculum information if relevant
         if curriculum:
             file.write("""environment_parameters:
-      target_size:
-          curriculum:\n""")
+  target_size:
+      curriculum:\n""")
 
             for i in range(len(target_sizes)-1):
                 file.write(f"""          - name: Lesson{i+1}
-                completion_criteria:
-                  measure: progress
-                  behavior: RocketLander
-                  signal_smoothing: true
-                  min_lesson_length: {min_lesson_length}
-                  threshold: {target_step_fraction[i]}
-                  {"require_reset: false" if i!=0 else ""}
-                value: {target_sizes[i]}\n""")
+            completion_criteria:
+              measure: progress
+              behavior: RocketLander
+              signal_smoothing: true
+              min_lesson_length: {min_lesson_length}
+              threshold: {target_step_fraction[i]}
+              {"require_reset: false" if i!=0 else ""}
+            value: {target_sizes[i]}\n""")
 
             file.write(f"""          - name: Lesson_{len(target_sizes)+1}
-                value: {target_sizes[-1]}""")
+            value: {target_sizes[-1]}""")
 
-
+    
     # Change back to default directory
     os.chdir(cwd)
 
@@ -313,8 +315,11 @@ def training_cycle():
     # Capture crash event, if appropriate (can post-process separately)
     except Exception as e:
         success_flag = False
-        #print(e)
+        print(e)
+    
 
+
+    #print(os.path.join(os.getcwd(), "results", run_id))
 
     # Change to target results folder
     os.chdir(os.path.join("results", run_id))
@@ -328,7 +333,7 @@ def training_cycle():
     for name in files:
         os.rename(os.path.join(os.getcwd(), name),
                   os.path.join(os.getcwd(), "\\".join(name.split("\\")[:-1]), TIMESTAMP+name.split("\\")[-1]))
-
+    
 
 
 
@@ -342,8 +347,8 @@ def training_cycle():
     os.chdir(cwd)
     
     # WandB performance logging might go here
-    wb_log(os.path.join("results", run_id))
-
+    wb_log(os.path.join(os.getcwd(), "results", run_id), config)
+    
 
 if __name__ == "__main__":
     #training_cycle()

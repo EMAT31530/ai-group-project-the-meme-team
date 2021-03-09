@@ -1,0 +1,39 @@
+{
+    "target_size": {
+        "lesson_num": 3
+    },
+    "RocketLander": {
+        "checkpoints": [
+            {
+                "steps": 49947,
+                "file_path": "results\\2021.03.09_1344_RocketLander\\RocketLander\\RocketLander-49947.onnx",
+                "reward": -10.622670612164907,
+                "creation_time": 1615297557.3468084
+            },
+            {
+                "steps": 99976,
+                "file_path": "results\\2021.03.09_1344_RocketLander\\RocketLander\\RocketLander-99976.onnx",
+                "reward": -10.731912451631883,
+                "creation_time": 1615297616.519086
+            },
+            {
+                "steps": 100168,
+                "file_path": "results\\2021.03.09_1344_RocketLander\\RocketLander\\RocketLander-100168.onnx",
+                "reward": -10.731912451631883,
+                "creation_time": 1615297616.6135247
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 100168,
+            "file_path": "results\\2021.03.09_1344_RocketLander\\RocketLander.onnx",
+            "reward": -10.731912451631883,
+            "creation_time": 1615297616.6135247
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.2.0",
+        "mlagents_version": "0.23.0",
+        "torch_version": "1.7.1",
+        "tensorflow_version": "2.2.0"
+    }
+}
