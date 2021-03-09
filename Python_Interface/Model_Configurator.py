@@ -12,6 +12,79 @@ from socket import socket
 import wandb
 
 
+#wandb.login
+
+sweep_config = {
+                'method': 'bayes',
+                
+                'metric': { #use only for bayesian searches
+                            'name': 'loss',
+                            'goal': 'minimize'   #if want sle. for accuracy, 'minimize' should be the 'goal'
+                            },
+                            
+                'parameters':{
+                    #Hyperparameters taken from config.yaml file, original initial values commented out at each step
+                    # 'batch_size':{ 
+                        # 'values': [512,1024,2048,4096,5120] }, #old 2048   for disc 32,512 cont 512,5120 should always be a fraction of buffer size. cont: 1000s, disc 10s
+                    # 'buffer_size':{
+                        # 'values': [2048,5096,10192,2038,40768,81536,163072,326144, 409600] }, #5096
+                    'learning_rate':{
+                        'distribution':'uniform',
+                        'min':1e-5 ,
+                        'max': 1e-3}, # 0.00025
+                    'beta':{
+                        'distribution':'uniform',
+                        'min': 1e-4,
+                        'max': 1e-2}, # 0.001
+                    'epsilon':{
+                        'distribution':'uniform',
+                        'min': 0.1,
+                        'max': 0.5}, #  0.2
+                    'lambda': {
+                        'distribution':'uniform',
+                        'min': 0.9,
+                        'max': 0.95}, # 0.99
+                    # 'num_epoch':{ 
+                        # 'values': [3,4,5,6,7,8,9,10]},   #3
+                   
+                    # 'hidden_units':{
+                        # 'distribution':'uniform',
+                        # 'min': 32,
+                        # 'max':512}, # 256
+                    # 'num_layers': {
+                        # 'values': [1,2,3]},  #2 
+                    'gamma':{
+                        'distribution':'uniform',
+                        'min': 0.8, 
+                        'max': 0.995}, #0.99
+                    # 'time_horizon':{
+                        # 'distribution':'uniform',
+                        # 'min':32,
+                        # 'max':2048}, #64
+                        
+                    # constant parameters:
+                    # 'strength':1,
+                    # 'max_steps': 1e-9,
+                    # 'summary_freq': 50000,
+                    # 'network_settings': 1e-3,
+                    # 'normalize': True,
+                    # 'learning_rate_schedule': 'linear',
+                    # 'network_settings':1e-3,
+                                }   
+       
+            }
+
+
+wandb.init(name='Rocket_Lander_2021.03.03_1234_JAH', 
+           project='rocketlander',
+           notes='This is a test run 2', 
+           tags=['RocketLander', 'Test Run'],
+           entity='uob_rocket_lander',
+           )
+
+#To intialise the parameter sweep: this should provide a link to the sweep in the browser to use and track the runs.
+sweep_id= wandb.sweep(sweep_config)
+
 # Wrapped training / execution logic within function
 # This is to allow for call from WandB agent
 def training_cycle():
@@ -83,14 +156,14 @@ def training_cycle():
     # Core hyperparameters
     batch_size = 2048
     buffer_size = 5096
-    learning_rate = 2.5e-4
-    beta = 1.0e-3
-    epsilon = 0.4
-    lambd = 0.99
+    # learning_rate = 2.5e-4
+    # beta = 1.0e-3
+    # epsilon = 0.4
+    # lambd = 0.99
     num_epoch = 3
     hidden_units = 256
     num_layers = 2
-    gamma = 0.99
+    # gamma = 0.99
     strength = 1.0
     max_steps = 1e8
     time_horizon = 64
@@ -219,6 +292,8 @@ def training_cycle():
                   os.path.join(os.getcwd(), "\\".join(name.split("\\")[:-1]), TIMESTAMP+name.split("\\")[-1]))
 
 
+
+
     # Execute further logic (pending tensorboard -> wandb.ai script)
     # Idea is to load tensorboard data, manipulate it, then iterate though
     # as if in a training loop for the purpose of transfering to wandb.ai
@@ -230,7 +305,10 @@ def training_cycle():
 
 
 if __name__ == "__main__":
-    training_cycle()
+    #training_cycle()
+    
+    #execute the function to train the agent and pair the sweep to the operation
+    wandb.agent(sweep_id, function=training_cycle)
 
 
 

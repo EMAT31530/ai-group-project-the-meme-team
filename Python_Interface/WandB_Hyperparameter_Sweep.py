@@ -60,7 +60,7 @@ sweep_config = {
                     # 'normalize': True,
                     # 'learning_rate_schedule': 'linear',
                     # 'network_settings':1e-3,
-                                # }   
+                                }   
        
             }
 
