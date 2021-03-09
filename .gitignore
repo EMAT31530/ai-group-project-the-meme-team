@@ -129,8 +129,8 @@ dmypy.json
 .pyre/
 
 # Unity Compiled Files (but keeping file structure)
-Python_Interface/Unity_Compiled_Files/*
-!Python_Interface/Unity_Compiled_Files/.gitkeep 
+#Python_Interface/Unity_Compiled_Files/*
+#!Python_Interface/Unity_Compiled_Files/.gitkeep 
 
 # Ignore all checkpoint files (due to size)
 Python_Interface/results/*/RocketLander/*
