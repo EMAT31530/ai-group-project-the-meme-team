@@ -1,0 +1,35 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    cli_version: 0.10.19
+    framework: sklearn
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    python_version: 3.8.3
+    t:
+      2:
+      - 5
+      4: 3.8.3
+      5: 0.10.19
+      8:
+      - 3
+learning_rate_schedule:
+  desc: null
+  value: linear
+max_steps:
+  desc: null
+  value: 1.0e-09
+network_settings:
+  desc: null
+  value: 0.001
+normalize:
+  desc: null
+  value: true
+strength:
+  desc: null
+  value: 1
+summary_freq:
+  desc: null
+  value: 50000
