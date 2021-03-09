@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 
 np.set_printoptions(threshold=sys.maxsize)
 
-def main():
+def wb_log():
 	path_to_events_file = sys.argv[1]
 	for root, dirs, files in os.walk(path_to_events_file):
 		for file in files:
@@ -50,22 +50,24 @@ def main():
 		values[scalar] = [item.value for item in event_acc.Scalars(scalar)]
 		unique_steps = sorted(set(step for step in steps[scalar]))
 
-	print(scalars)
+	# print(scalars)
 
-	wandb.init(project="test-drive-2", config=param_dict)
+	# wandb.init(project="test-drive-2", config=param_dict)
 
 	for step in unique_steps:
 		for scalar in scalars:
 			if step in steps[scalar]:
 				step_index = steps[scalar].index(step)
-				print("Step: ", step, "Scalar: ", scalar, "Step position in dict: ", step_index, "Corresponding value: ", values[scalar][step_index])
+				# print("Step: ", step, "Scalar: ", scalar, "Step position in dict: ", step_index, "Corresponding value: ", values[scalar][step_index])
 				wandb.log({scalar: values[scalar][step_index]}, step=step)
 
 	# wandb.log.run.summary("accuracy"= )
 
 
 	wandb.finish()
-	quit()
+	# quit()
 
 if __name__=="__main__":
-    main()
+    wandb.init(project="test-drive-2", config=param_dict)
+    wb_log()
+    quit()
