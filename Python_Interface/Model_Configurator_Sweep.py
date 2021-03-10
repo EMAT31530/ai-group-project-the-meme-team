@@ -46,15 +46,16 @@ sweep_config = {
                                 }   
             }
 
+#Call wandb to point at the project section online. Define the run information
 
 wandb.init(name='Rocket_Lander', 
            project='rocketlander',
-           notes='This is a test run', 
+           notes='Hyperparameter Sweep for AI RocketLander project', 
            tags=['RocketLander'],
            entity='uob_rocket_lander',
            )
 
-#To intialise the parameter sweep: this should provide a link to the sweep in the browser to use and track the runs.
+#To intialise a NEW parameter sweep. Not needed for general training
 sweep_id = wandb.sweep(sweep_config, project='rocketlander', entity='uob_rocket_lander')
 
 
@@ -290,7 +291,9 @@ def training_cycle():
 
 if __name__ == "__main__":
     
-    #execute the function to train the agent and pair the sweep to the operation
+    #Execute the function to train the agent and pair the operation to the sweep.
+    #Project sweep name must be the same for all users to direct towards the same sweep file in wandb.
+    
     wandb.agent(sweep_id, function=training_cycle)
 
 
