@@ -13,7 +13,7 @@ Unity version 2020.2.0f1 has been used to develop the simulation, using the ML A
 ## File Structure / Usage Information
 The Unity simulation environment is located within the "Rocket_Lander" directory, with a self-explanatory folder structure. One script is used to control all behaviours, titled "Rocket_Agent.cs". The Networks folder is used to store the trained neural networks (.onnx). These can be dragged into the Unity editor to add them to the project, then assigned to a rocket by selecting the relevant neural network model from within the "Rocket_Agent (Script)/Behaviour Parameters/Model" field within the Simulation_Environment/Rocket Game Object.  
 
-Model training is abstracted through the "Model_Configurator_Manual.py" and "Model_Configurator_Sweep.py" file within the Python_Interface folder. The Model_Configurator_Manual.py file provides an interface to run a custom model with user-defined arguments, which is ideal for finetuning parameters, or conducting a longer run. In contrast, the Model_Configurator_Sweep.py file interfaces with Weights and Biases to perform a parameter sweep, and so is preconfigured with a smaller step count (5e7).
+Model training is abstracted through the "Model_Configurator_Manual.py" and "Model_Configurator_Sweep.py" file within the Python_Interface folder. The Model_Configurator_Manual.py file provides an interface to run a custom model with user-defined arguments, which is ideal for finetuning parameters, or conducting a longer run. In contrast, the Model_Configurator_Sweep.py file interfaces with Weights and Biases to perform a parameter sweep, and so is preconfigured with a smaller step count (3e7).
 
 Upon running either file, a corresponding config file will be created, followed by launching the Unity ML-Agents trainer. This will point to the compiled environment within the Unity_Compiled_Files folder, hence the project must be built (in the Python_Interface/Unity_Compiled_Files directory) prior to running the script. A built version has been included with the repository, however if changes are required, it must be rebuilt in the same target location. Upon completion of training, the file structure will be renamed to our prefered file structure for consistent datetime formatting. 
 
@@ -30,7 +30,7 @@ Make sure your local Model_Configurator_Sweep.py script is up to date with the r
 
 wandb agent --count 1 uob_rocket_lander/rocketlander/w34jrc7s
 
-Nb: --count specifies the number of trainings to run, so change/ remove this for the agent to automatically run multiple trainings 
+Note: --count specifies the number of trainings to run, so change/ remove this for the agent to automatically run multiple trainings 
 
 ## Team Members:  
 Dan Rodrigues  
