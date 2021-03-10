@@ -13,49 +13,45 @@ import wandb
 
 from wandb_logging import wb_log
 
-#wandb.login
-sweep_config = {
-                'method': 'bayes',
+# sweep_config = {
+#                 'program': 'Model_Configurator_Sweep.py',
                 
-                'metric': { #use only for bayesian searches
-                            'name': 'Environment/Cumulative Reward',
-                            'goal': 'maximise'   #if want sle. for accuracy, 'minimize' should be the 'goal'
-                            },
+#                 'method': 'bayes',
+                
+#                 'metric': { #use only for bayesian searches
+#                             'name': 'Environment/Cumulative Reward',
+#                             'goal': 'maximise'   #if want sle. for accuracy, 'minimize' should be the 'goal'
+#                             },
                             
-                'parameters':{
-                    'learning_rate':{
-                        'distribution':'uniform',
-                        'min':1e-5 ,
-                        'max': 1e-3}, # 0.00025
-                    'beta':{
-                        'distribution':'uniform',
-                        'min': 1e-4,
-                        'max': 1e-2}, # 0.001
-                    'epsilon':{
-                        'distribution':'uniform',
-                        'min': 0.1,
-                        'max': 0.5}, #  0.2
-                    'lambda': {
-                        'distribution':'uniform',
-                        'min': 0.9,
-                        'max': 0.95}, # 0.99
-                    'gamma':{
-                        'distribution':'uniform',
-                        'min': 0.8, 
-                        'max': 0.995}, #0.99
-                                }   
-            }
+#                 'parameters':{
+#                     'learning_rate':{
+#                         'distribution':'uniform',
+#                         'min':1e-5 ,
+#                         'max': 1e-3}, # 0.00025
+#                     'beta':{
+#                         'distribution':'uniform',
+#                         'min': 1e-4,
+#                         'max': 1e-2}, # 0.001
+#                     'epsilon':{
+#                         'distribution':'uniform',
+#                         'min': 0.1,
+#                         'max': 0.5}, #  0.2
+#                     'lambd': {
+#                         'distribution':'uniform',
+#                         'min': 0.9,
+#                         'max': 0.95}, # 0.99
+#                     'gamma':{
+#                         'distribution':'uniform',
+#                         'min': 0.8, 
+#                         'max': 0.995}, #0.99
+#                                 }   
+#             }
 
 
-wandb.init(name='Rocket_Lander', 
-           project='rocketlander',
-           notes='This is a test run', 
-           tags=['RocketLander'],
-           entity='uob_rocket_lander',
-           )
+
 
 #To intialise the parameter sweep: this should provide a link to the sweep in the browser to use and track the runs.
-sweep_id = wandb.sweep(sweep_config, project='rocketlander', entity='uob_rocket_lander')
+# sweep_id = wandb.sweep(sweep_config, project='rocketlander', entity='uob_rocket_lander')
 
 
 # Wrapped training / execution logic within function
@@ -135,7 +131,14 @@ def training_cycle():
         }
 
     # Initialize a new wandb run
-    wandb.init(config=config_defaults)
+    wandb.init(name= run_id, 
+           project='rocketlander',
+           notes='This is a test run', 
+           tags=['RocketLander'],
+           entity='uob_rocket_lander',
+           config = config_defaults
+       )
+    # wandb.init(config=config_defaults)
 
     # Config is a variable that holds and saves hyperparameters and inputs
     config = wandb.config
@@ -154,7 +157,7 @@ def training_cycle():
     hidden_units = 256
     num_layers = 2
     strength = 1.0
-    max_steps = 1e7
+    max_steps = 3e7
     time_horizon = 64
 
     # Additional hyperparameters
@@ -289,10 +292,4 @@ def training_cycle():
     
 
 if __name__ == "__main__":
-    
-    #execute the function to train the agent and pair the sweep to the operation
-    wandb.agent(sweep_id, function=training_cycle)
-
-
-
-
+    training_cycle()
