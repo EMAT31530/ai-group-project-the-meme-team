@@ -53,7 +53,6 @@ from wandb_logging import wb_log
 #To intialise the parameter sweep: this should provide a link to the sweep in the browser to use and track the runs.
 # sweep_id = wandb.sweep(sweep_config, project='rocketlander', entity='uob_rocket_lander')
 
-
 # Wrapped training / execution logic within function
 # This is to allow for call from WandB agent
 def training_cycle():
@@ -130,7 +129,7 @@ def training_cycle():
         "gamma" : 0.99
         }
 
-    # Initialize a new wandb run
+    #Call wandb to point at the project section online. Define the run information
     wandb.init(name= run_id, 
            project='rocketlander',
            notes='This is a test run', 
@@ -292,4 +291,6 @@ def training_cycle():
     
 
 if __name__ == "__main__":
+    #Execute the function to train the agent and pair the operation to the sweep.
     training_cycle()
+    
