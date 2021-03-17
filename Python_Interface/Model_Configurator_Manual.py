@@ -16,7 +16,7 @@ from wandb_logging import wb_log
 wandb.init(name='Rocket_Lander', 
            project='rocketlander',
            notes='This is a test run', 
-           tags=['RocketLander'],
+           tags=['RocketLander, Test_No_Curriculum'],
            entity='uob_rocket_lander',
            )
 
@@ -87,11 +87,11 @@ def training_cycle():
     """
 
     # Core hyperparameters
-    learning_rate = 2.5e-4
-    beta = 1.0e-3
-    epsilon = 0.4
-    lambd = 0.99
-    gamma = 0.99    
+    learning_rate = 0.0009315
+    beta = 0.00426
+    epsilon = 0.3919
+    lambd = 0.9406
+    gamma = 0.9306    
 
     # Constant hyperparameters
     batch_size = 2048
@@ -100,7 +100,7 @@ def training_cycle():
     hidden_units = 256
     num_layers = 2
     strength = 1.0
-    max_steps = 1e8
+    max_steps = 3e7
     time_horizon = 64
 
     # Additional hyperparameters
@@ -111,10 +111,13 @@ def training_cycle():
     checkpoint_interval = 50000
 
     # Configure curriculum learning
-    curriculum = True
+    curriculum = False
     target_sizes = [11.0, 9.0, 7.0, 5.0]
     target_step_fraction = [0.3, 0.5, 0.7]
     min_lesson_length = 100
+
+    # Set static curriculum learning file
+    static_target_size = 11.0
 
     # Define config dictionary (like WandB config)
     config = {"learning_rate": learning_rate,
@@ -184,6 +187,11 @@ def training_cycle():
 
             file.write(f"""          - name: Lesson_{len(target_sizes)+1}
             value: {target_sizes[-1]}""")
+        
+        # Otherwise, set a fixed defined value
+        else:
+            file.write(f"""environment_parameters:
+  target_size: {static_target_size}""")
 
     
     # Change back to default directory
