@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
@@ -52,9 +53,14 @@ public class Rocket_Agent : Agent
 
     private float maxDistanceToTarget = 30f;
 
+    //Bool to determine whether to save data
+    public bool saveData;
+    private int episodeCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
+
         rb = gameObject.GetComponent<Rigidbody>();
         rb_thruster = thruster.GetComponent<Rigidbody>();
         position_offset = rb_thruster.position - rb.position;
@@ -112,6 +118,8 @@ public class Rocket_Agent : Agent
     // Code executed at the beginning of each training episode
     public override void OnEpisodeBegin()
     {
+        //Increment episode counter
+        episodeCount = episodeCount + 1;
 
         // Reset position and velocity of agent
         this.transform.localPosition = new Vector3(Random.Range(-xrange / 2, xrange / 2), Random.Range(ylow, yhigh), Random.Range(-zrange / 2, zrange / 2));
@@ -332,6 +340,31 @@ public class Rocket_Agent : Agent
         if (other.gameObject.name == "Ground")
         {
             collisionFlag = true;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        
+        if((saveData) && (episodeCount > 0))
+        {
+            string path = "Assets/Data/" + episodeCount.ToString() + ".txt";
+            StreamWriter writer = new StreamWriter(path, true);
+
+            //RB variables
+            string rbPos = rb.transform.localPosition.ToString();
+            Vector3 rotToTarget3D = Vector3.Normalize(this.transform.rotation * Vector3.up);
+            float vert = Vector3.Dot(rotToTarget3D, Vector3.up);
+            string upright = "(" + vert.ToString() + ")";
+            string rbVel = rb.velocity.ToString();
+
+            // Destination Location
+            string rbEnd = destination.transform.localPosition.ToString();
+
+            string data = rbPos + ";" + upright + ";" + rbVel + ";" + rbEnd + "\n";
+
+            writer.Write(data);
+            writer.Close();
         }
     }
 
