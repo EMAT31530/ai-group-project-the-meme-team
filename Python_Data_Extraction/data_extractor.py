@@ -64,15 +64,16 @@ def graph(data, axes, c):
     #### Plot rotation dot upright
     rot = np.array(data[1]) * 100
     axes[2].plot(rot, color=c)
-    
 
-#Get all agents to plot
-agents = next(os.walk('Data'))[1]
+    #### Plot points at square limits to force equal axes on 3D and x-z plot
+    limit = max([max(pos[0]), abs(min(pos[0])), max(pos[2]), abs(min(pos[2]))])
+    limit_x = [limit, limit, -limit, -limit]
+    limit_y = [limit, -limit, limit, -limit]
 
-for agent in agents:
-    path = "Data\\" + agent         #Path to agent subfolder
-    episodes = os.listdir(path)     #Get all episodes of agent
+    axes[0][0].plot(limit_x, limit_y, [0,0,0,0], lw=0.0)
+    axes[0][2].plot(limit_x, limit_y, lw=0.0)
 
+def axes_setup(agent=None):
     #Position plot figure and formatting
     fig_pos = plt.figure()
     ax_pos1 = fig_pos.add_subplot(2, 2, 1, projection='3d')
@@ -96,29 +97,55 @@ for agent in agents:
     ax_pos4.set_xticks([])
     ax_pos4.set_yticks([])
     fig_pos.subplots_adjust(wspace=0.15, hspace=0.15)
-    fig_pos.suptitle('Agent position (normalised to target) in 3D space - ' + agent + " (" + str(len(episodes)) + " episodes)", fontsize=10)
-
+    
     #Velocity plot figure and formatting
     fig_vel = plt.figure()
     ax_vel = plt.axes()
     ax_vel.set_xlabel("Time step")
     ax_vel.set_ylabel("Speed")
-    ax_vel.set_title('Agent Speed vs time step - ' + agent + " (" + str(len(episodes)) + " episodes)", fontsize=10)
-
+    
     #Rotation dot y-axis figure and formatting
     fig_rot = plt.figure()
     ax_rot = plt.axes()
     ax_rot.set_xlabel("Time step")
     ax_rot.set_ylabel("% vertical upward")
-    ax_rot.set_ylim([-100, 100])
-    ax_rot.set_title('Upright vs time step - ' + agent + " (" + str(len(episodes)) + " episodes)", fontsize=10)
+    ax_rot.set_ylim([-120, 120])
+
+    if agent != None:
+        fig_pos_title = 'Agent position (normalised to target) in 3D space - ' + agent + " (" + str(len(episodes)) + " episodes)"
+        ax_vel_title = 'Agent Speed vs time step - ' + agent + " (" + str(len(episodes)) + " episodes)"
+        ax_rot_title = 'Upright vs time step - ' + agent + " (" + str(len(episodes)) + " episodes)"
+    else:
+        fig_pos_title = 'Agent position (normalised to target) in 3D space - All'
+        ax_vel_title = 'Agent Speed vs time step - All'
+        ax_rot_title = 'Upright vs time step - All'
+        
+    fig_pos.suptitle(fig_pos_title, fontsize=10)
+    ax_vel.set_title(ax_vel_title, fontsize=10)
+    ax_rot.set_title(ax_rot_title, fontsize=10)
 
     
     #List of axes for this agent
-    agent_axes = [[ax_pos1, ax_pos2, ax_pos3, ax_pos4], ax_vel, ax_rot]
+    axes = [[ax_pos1, ax_pos2, ax_pos3, ax_pos4], ax_vel, ax_rot]
+    return axes
+
+    
+    
+
+#Get all agents to plot
+agents = next(os.walk('Data'))[1]
+
+#Axes that all agents plot on
+global_axes = axes_setup()
+
+for agent in agents:
+    path = "Data\\" + agent         #Path to agent subfolder
+    episodes = os.listdir(path)     #Get all episodes of agent
+
     #Generate a color gradient specific to this agent
     #Agent number indexes global colors list
     #Gradient created from that color to white
+    agent_axes = axes_setup(agent=agent)
     episode_colors = get_colors(default_colors[agents.index(agent)], "white", len(episodes) + 1)
 
     #For each episode of this agent
@@ -145,6 +172,7 @@ for agent in agents:
         #Plot episode
         color = episode_colors.pop(0)
         graph(plotData, agent_axes, color)
+        graph(plotData, global_axes, color)
 
     #Plot black circle at target position on 3d plot and x-z plot
     plot_circle(agent_axes[0][0], [0, 0, 0], 5, "black", three_d=True)

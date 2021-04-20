@@ -1,0 +1,22 @@
+1. Drift: 			commit 8ec1e59058dde509f033f5cab796b6275e4d2859
+	-1e8 steps, single agent
+	-Learnt to stabilise and drift to target but takes a while due to no penalty on episode length
+
+2. Flip: 			commit c32947e040ef8197af2aede5d3bbd296ed127edb
+	-1e8 steps, single agent, curriculum, max steps=500
+	-Learnt to get to target but is unstable
+
+3. Fast 1:			commit c2a31419037e4938bd0a5c64edae21b836b3a686
+	-1e8 steps, single agent, curriculum, max steps=500, epsilon=0.4
+	-Gets to target quite quickly and stably but doesn't land upright
+
+4. Fast 2:			commit 310a4764ac4a6ce3a57638e241a8de9a03dccaf8
+	-1e8, change to curriculum to make easier, spawn location size reduced to eliminate very difficult start scenarios
+	-Successfully hits target, stably and quickly. Sometimes upright
+
+5. Fast 3:			commit 3d313c6d39bd88e426da2311321e22778ec6d4bb
+	-1e8, 16 agents
+	-Successfully hits target, stably and quickly, often upright (not as fast as 4)
+	-Training far faster with 16 agents
+	-Run of 64 agents was tested but failed to learn an effective strategy
+		"However, while increasing the number of agents appears to speed up training time, this does not mean the agent is trained to the same standard. This is because while the same number of steps are assessed over the a shorter time period (across all the environments), these environments show less variation, and as such, the neural networks are updated over a less distributed spread of actions and observations, limiting exploration of the policy space and hence producing a worse outcome if increased indefinitely."
