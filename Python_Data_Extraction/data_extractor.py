@@ -178,6 +178,9 @@ for agent in agents:
     plot_circle(agent_axes[0][0], [0, 0, 0], 5, "black", three_d=True)
     plot_circle(agent_axes[0][2], [0, 0, 0], 5, "black")
 
+    plot_circle(global_axes[0][0], [0, 0, 0], 5, "black", three_d=True)
+    plot_circle(global_axes[0][2], [0, 0, 0], 5, "black")
+
 plt.show()
 
             
