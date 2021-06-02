@@ -257,7 +257,7 @@ traitlets==4.3.3
 typing-extensions==3.7.4.2
 ujson==1.35
 unicodecsv==0.14.1
-urllib3==1.25.9
+urllib3==1.26.5
 wandb==0.10.19
 watchdog==0.10.3
 wcwidth==0.2.5
