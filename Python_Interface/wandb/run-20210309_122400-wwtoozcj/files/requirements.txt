@@ -32,7 +32,7 @@ markdown==3.3.3
 matplotlib==3.3.4
 mlagents-envs==0.23.0
 mlagents==0.23.0
-numpy==1.18.5
+numpy==1.22.0
 oauthlib==3.1.0
 opencv-contrib-python==4.5.1.48
 opt-einsum==3.3.0
