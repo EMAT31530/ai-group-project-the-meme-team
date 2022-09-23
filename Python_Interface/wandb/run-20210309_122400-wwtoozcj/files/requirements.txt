@@ -40,7 +40,7 @@ pathtools==0.1.2
 pillow==7.2.0
 pip==20.3.3
 promise==2.3
-protobuf==3.14.0
+protobuf==3.18.3
 psutil==5.8.0
 pyasn1-modules==0.2.8
 pyasn1==0.4.8
