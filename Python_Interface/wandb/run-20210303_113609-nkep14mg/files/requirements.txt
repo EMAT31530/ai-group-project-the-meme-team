@@ -211,7 +211,7 @@ scipy==1.5.0
 seaborn==0.10.1
 send2trash==1.5.0
 sentry-sdk==0.20.3
-setuptools==49.2.0.post20200714
+setuptools==65.5.1
 shortuuid==1.0.1
 simplegeneric==0.8.1
 singledispatch==3.4.0.3
